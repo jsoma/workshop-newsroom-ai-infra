@@ -1,0 +1,26 @@
+[project]
+name = "ai-experimentation"
+version = "0.1.0"
+description = "Small Gradio and Streamlit demos for AI/data journalism workshops."
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "accelerate>=1.13.0",
+    "gradio>=6.8.0",
+    "ipykernel>=7.1.0",
+    "kokoro-onnx>=0.5.0",
+    "numpy>=2.4.5",
+    "onnxruntime>=1.26.0",
+    "pandas>=3.0.3",
+    "pymupdf>=1.27.2",
+    "rapidocr>=3.8.1",
+    "requests>=2.34.2",
+    "sentence-transformers>=5.5.0",
+    "sentencepiece>=0.2.1",
+    "soundfile>=0.13.1",
+    "streamlit>=1.57.0",
+    "torch>=2.6.0",
+    "transformers>=5.2.0",
+]
+
+[tool.uv]
+package = false
