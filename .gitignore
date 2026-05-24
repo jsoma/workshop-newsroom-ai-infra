@@ -1,0 +1,9 @@
+.DS_Store
+~*
+.venv
+__pycache__
+.streamlit_pdf_search.log
+.pdf_search_index.pkl
+talk.md
+download_documentcloud_lawsuits.py
+data/models
