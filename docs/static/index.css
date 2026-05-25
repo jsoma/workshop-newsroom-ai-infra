@@ -570,7 +570,7 @@
     align-items: start;
     padding: 2em 0;
     border-bottom: 2px solid #ccc5b8;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .theme-broadsheet .step-number {
