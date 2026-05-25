@@ -1,6 +1,6 @@
 # Newsroom Infrastructure for AI Experimentation
 
-**DataHarvest 2026**
+**Dataharvest 2026**
 
 Jonathan Soma
 
