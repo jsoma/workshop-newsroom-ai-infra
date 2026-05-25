@@ -34,7 +34,7 @@
     
     <div class="site-actions">
         
-        <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="site-action-btn site-action-codespaces" target="_blank" rel="noopener">Open in Codespaces</a>
+        <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="site-action-btn site-action-codespaces site-action-highlight" target="_blank" rel="noopener">Open in Codespaces</a>
         
         <a href="./ai-experimentation.pdf" class="site-action-btn site-action-slides">View slides</a>
         
@@ -65,171 +65,343 @@
 
 
 <hr class="section-divider">
-<h2 class="section-title">Gradio demos</h2>
+<h2 class="section-title">01. OCR</h2>
 
+<div class="section-intro">
+    <div class="section-description"><p>Here is some <em>sample text</em>.</p></div>
+
+    
+
+    
+</div>
 
 
 
 <div class="notebook-card">
     <div class="step-number">01</div>
     <div class="card-content">
-        <h3 class="notebook-title"><a href="./gradio-demos/01-gradio-ocr-simple-ANSWERS.html">OCR with Gradio: simple</a></h3>
+        <h3 class="notebook-title"><a href="./01-ocr/01-gradio-ocr-simple-ANSWERS.html">OCR with Gradio: simple</a></h3>
         <p class="notebook-desc">A tiny PDF OCR interface using RapidOCR.</p>
         
         <div class="secondary-actions">
             
-            <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="action-codespaces" target="_blank" rel="noopener">Open in Codespaces</a>
-            
-            <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/01-gradio-ocr-simple.ipynb" class="action-codealong" target="_blank" rel="noopener">Code-along</a>
-            
-            <a href="./gradio-demos/01-gradio-ocr-simple-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
+            <a href="./01-ocr/01-gradio-ocr-simple-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
             
         </div>
         
         
     </div>
     <div class="card-action">
-        <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/01-gradio-ocr-simple-ANSWERS.ipynb" class="primary-btn" target="_blank" rel="noopener">Open in Colab</a>
-        <a href="./gradio-demos/01-gradio-ocr-simple-ANSWERS.html" class="read-btn">Read</a>
+        
+        <details class="try-menu">
+            <summary class="primary-btn">Try it</summary>
+            <div class="try-options">
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-simple-ANSWERS.ipynb" target="_blank" rel="noopener">Open in Colab</a>
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-simple.ipynb" target="_blank" rel="noopener">Colab (code-along)</a>
+                
+                <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+                
+            </div>
+        </details>
+        
+        <a href="./01-ocr/01-gradio-ocr-simple-ANSWERS.html" class="read-btn">Read</a>
     </div>
 </div>
 
 <div class="notebook-card">
     <div class="step-number">02</div>
     <div class="card-content">
-        <h3 class="notebook-title"><a href="./gradio-demos/01-gradio-ocr-fancy-ANSWERS.html">OCR with Gradio: fancy</a></h3>
+        <h3 class="notebook-title"><a href="./01-ocr/01-gradio-ocr-fancy-ANSWERS.html">OCR with Gradio: fancy</a></h3>
         <p class="notebook-desc">A richer OCR interface with preview, page ranges, and engine selection.</p>
         
         <div class="secondary-actions">
             
-            <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="action-codespaces" target="_blank" rel="noopener">Open in Codespaces</a>
-            
-            <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/01-gradio-ocr-fancy.ipynb" class="action-codealong" target="_blank" rel="noopener">Code-along</a>
-            
-            <a href="./gradio-demos/01-gradio-ocr-fancy-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
+            <a href="./01-ocr/01-gradio-ocr-fancy-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
             
         </div>
         
         
     </div>
     <div class="card-action">
-        <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/01-gradio-ocr-fancy-ANSWERS.ipynb" class="primary-btn" target="_blank" rel="noopener">Open in Colab</a>
-        <a href="./gradio-demos/01-gradio-ocr-fancy-ANSWERS.html" class="read-btn">Read</a>
-    </div>
-</div>
-
-<div class="notebook-card">
-    <div class="step-number">03</div>
-    <div class="card-content">
-        <h3 class="notebook-title"><a href="./gradio-demos/02-gradio-tts-simple-ANSWERS.html">Text-to-speech with Gradio: simple</a></h3>
-        <p class="notebook-desc">A small Kokoro ONNX text-to-speech demo.</p>
         
-        <div class="secondary-actions">
-            
-            <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="action-codespaces" target="_blank" rel="noopener">Open in Codespaces</a>
-            
-            <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/02-gradio-tts-simple.ipynb" class="action-codealong" target="_blank" rel="noopener">Code-along</a>
-            
-            <a href="./gradio-demos/02-gradio-tts-simple-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
-            
-        </div>
+        <details class="try-menu">
+            <summary class="primary-btn">Try it</summary>
+            <div class="try-options">
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-fancy-ANSWERS.ipynb" target="_blank" rel="noopener">Open in Colab</a>
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-fancy.ipynb" target="_blank" rel="noopener">Colab (code-along)</a>
+                
+                <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+                
+            </div>
+        </details>
         
-        
-    </div>
-    <div class="card-action">
-        <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/02-gradio-tts-simple-ANSWERS.ipynb" class="primary-btn" target="_blank" rel="noopener">Open in Colab</a>
-        <a href="./gradio-demos/02-gradio-tts-simple-ANSWERS.html" class="read-btn">Read</a>
-    </div>
-</div>
-
-<div class="notebook-card">
-    <div class="step-number">04</div>
-    <div class="card-content">
-        <h3 class="notebook-title"><a href="./gradio-demos/02-gradio-tts-fancy-ANSWERS.html">Text-to-speech with Gradio: fancy</a></h3>
-        <p class="notebook-desc">A larger TTS demo with Kokoro ONNX and MMS options.</p>
-        
-        <div class="secondary-actions">
-            
-            <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="action-codespaces" target="_blank" rel="noopener">Open in Codespaces</a>
-            
-            <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/02-gradio-tts-fancy.ipynb" class="action-codealong" target="_blank" rel="noopener">Code-along</a>
-            
-            <a href="./gradio-demos/02-gradio-tts-fancy-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
-            
-        </div>
-        
-        
-    </div>
-    <div class="card-action">
-        <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/02-gradio-tts-fancy-ANSWERS.ipynb" class="primary-btn" target="_blank" rel="noopener">Open in Colab</a>
-        <a href="./gradio-demos/02-gradio-tts-fancy-ANSWERS.html" class="read-btn">Read</a>
+        <a href="./01-ocr/01-gradio-ocr-fancy-ANSWERS.html" class="read-btn">Read</a>
     </div>
 </div>
 
 
 <hr class="section-divider">
-<h2 class="section-title">Streamlit apps</h2>
-
+<h2 class="section-title">02. Text-to-speech</h2>
 
 
 
 <div class="notebook-card">
     <div class="step-number">01</div>
     <div class="card-content">
-        <h3 class="notebook-title"><a href="./streamlit-apps/03-streamlit-pdf-search.html">PDF Search</a></h3>
-        <p class="notebook-desc">Semantic search over local PDFs using sentence-transformer embeddings.</p>
+        <h3 class="notebook-title"><a href="./02-text-to-speech/02-gradio-tts-simple-ANSWERS.html">Text-to-speech with Gradio: simple</a></h3>
+        <p class="notebook-desc">A small Kokoro ONNX text-to-speech demo.</p>
         
         <div class="secondary-actions">
             
-            <a href="./streamlit-apps/03-streamlit-pdf-search.py" class="action-download" download>Download .py</a>
+            <a href="./02-text-to-speech/02-gradio-tts-simple-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
             
         </div>
         
         
     </div>
     <div class="card-action">
-        <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="primary-btn" target="_blank" rel="noopener">Open in Codespaces</a>
-        <a href="./streamlit-apps/03-streamlit-pdf-search.html" class="read-btn">Read code</a>
+        
+        <details class="try-menu">
+            <summary class="primary-btn">Try it</summary>
+            <div class="try-options">
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/02-text-to-speech/02-gradio-tts-simple-ANSWERS.ipynb" target="_blank" rel="noopener">Open in Colab</a>
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/02-text-to-speech/02-gradio-tts-simple.ipynb" target="_blank" rel="noopener">Colab (code-along)</a>
+                
+                <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+                
+            </div>
+        </details>
+        
+        <a href="./02-text-to-speech/02-gradio-tts-simple-ANSWERS.html" class="read-btn">Read</a>
     </div>
 </div>
 
 <div class="notebook-card">
     <div class="step-number">02</div>
     <div class="card-content">
-        <h3 class="notebook-title"><a href="./streamlit-apps/04-streamlit-transfers-simple.html">Transfers Browser: simple</a></h3>
-        <p class="notebook-desc">A simple Streamlit browser for local property transfer data.</p>
+        <h3 class="notebook-title"><a href="./02-text-to-speech/02-gradio-tts-fancy-ANSWERS.html">Text-to-speech with Gradio: fancy</a></h3>
+        <p class="notebook-desc">A larger TTS demo with Kokoro ONNX and MMS options.</p>
         
         <div class="secondary-actions">
             
-            <a href="./streamlit-apps/04-streamlit-transfers-simple.py" class="action-download" download>Download .py</a>
+            <a href="./02-text-to-speech/02-gradio-tts-fancy-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
             
         </div>
         
         
     </div>
     <div class="card-action">
-        <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="primary-btn" target="_blank" rel="noopener">Open in Codespaces</a>
-        <a href="./streamlit-apps/04-streamlit-transfers-simple.html" class="read-btn">Read code</a>
+        
+        <details class="try-menu">
+            <summary class="primary-btn">Try it</summary>
+            <div class="try-options">
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/02-text-to-speech/02-gradio-tts-fancy-ANSWERS.ipynb" target="_blank" rel="noopener">Open in Colab</a>
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/02-text-to-speech/02-gradio-tts-fancy.ipynb" target="_blank" rel="noopener">Colab (code-along)</a>
+                
+                <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+                
+            </div>
+        </details>
+        
+        <a href="./02-text-to-speech/02-gradio-tts-fancy-ANSWERS.html" class="read-btn">Read</a>
+    </div>
+</div>
+
+
+<hr class="section-divider">
+<h2 class="section-title">03. PDF search</h2>
+
+
+
+<div class="notebook-card">
+    <div class="step-number">01</div>
+    <div class="card-content">
+        <h3 class="notebook-title"><a href="./03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.html">PDF Search: notebook version</a></h3>
+        <p class="notebook-desc">A notebook walkthrough that reads local PDFs, embeds each page, and ranks semantic search results.</p>
+        
+        <div class="secondary-actions">
+            
+            <a href="./03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
+            
+        </div>
+        
+        
+    </div>
+    <div class="card-action">
+        
+        <details class="try-menu">
+            <summary class="primary-btn">Try it</summary>
+            <div class="try-options">
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.ipynb" target="_blank" rel="noopener">Open in Colab</a>
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/03-pdf-search/03-streamlit-pdf-search-manual.ipynb" target="_blank" rel="noopener">Colab (code-along)</a>
+                
+                <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+                
+            </div>
+        </details>
+        
+        <a href="./03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.html" class="read-btn">Read</a>
     </div>
 </div>
 
 <div class="notebook-card">
-    <div class="step-number">03</div>
+    <div class="step-number">02</div>
     <div class="card-content">
-        <h3 class="notebook-title"><a href="./streamlit-apps/04-streamlit-transfers-fancy.html">Transfers Browser: fancy</a></h3>
-        <p class="notebook-desc">A fuller Streamlit transfer-data app with charts, filters, and summaries.</p>
+        <h3 class="notebook-title"><a href="./03-pdf-search/03-streamlit-pdf-search.html">PDF Search: Streamlit app</a></h3>
+        <p class="notebook-desc">Semantic search over local PDFs using sentence-transformer embeddings.</p>
         
         <div class="secondary-actions">
             
-            <a href="./streamlit-apps/04-streamlit-transfers-fancy.py" class="action-download" download>Download .py</a>
+            <a href="./03-pdf-search/03-streamlit-pdf-search.py" class="action-download" download>Download .py</a>
             
         </div>
         
         
     </div>
     <div class="card-action">
-        <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="primary-btn" target="_blank" rel="noopener">Open in Codespaces</a>
-        <a href="./streamlit-apps/04-streamlit-transfers-fancy.html" class="read-btn">Read code</a>
+        
+        <details class="try-menu">
+            <summary class="primary-btn">Try it</summary>
+            <div class="try-options">
+                
+                <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+                
+            </div>
+        </details>
+        
+        <a href="./03-pdf-search/03-streamlit-pdf-search.html" class="read-btn">Read code</a>
+    </div>
+</div>
+
+
+<hr class="section-divider">
+<h2 class="section-title">04. Transfer data</h2>
+
+
+
+<div class="notebook-card">
+    <div class="step-number">01</div>
+    <div class="card-content">
+        <h3 class="notebook-title"><a href="./04-transfer-data/04-streamlit-transfers-simple.html">Transfers Browser: simple</a></h3>
+        <p class="notebook-desc">A simple Streamlit browser for local property transfer data.</p>
+        
+        <div class="secondary-actions">
+            
+            <a href="./04-transfer-data/04-streamlit-transfers-simple.py" class="action-download" download>Download .py</a>
+            
+        </div>
+        
+        
+    </div>
+    <div class="card-action">
+        
+        <details class="try-menu">
+            <summary class="primary-btn">Try it</summary>
+            <div class="try-options">
+                
+                <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+                
+            </div>
+        </details>
+        
+        <a href="./04-transfer-data/04-streamlit-transfers-simple.html" class="read-btn">Read code</a>
+    </div>
+</div>
+
+<div class="notebook-card">
+    <div class="step-number">02</div>
+    <div class="card-content">
+        <h3 class="notebook-title"><a href="./04-transfer-data/04-streamlit-transfers-fancy.html">Transfers Browser: fancy</a></h3>
+        <p class="notebook-desc">A fuller Streamlit transfer-data app with charts, filters, and summaries.</p>
+        
+        <div class="secondary-actions">
+            
+            <a href="./04-transfer-data/04-streamlit-transfers-fancy.py" class="action-download" download>Download .py</a>
+            
+        </div>
+        
+        
+    </div>
+    <div class="card-action">
+        
+        <details class="try-menu">
+            <summary class="primary-btn">Try it</summary>
+            <div class="try-options">
+                
+                <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+                
+            </div>
+        </details>
+        
+        <a href="./04-transfer-data/04-streamlit-transfers-fancy.html" class="read-btn">Read code</a>
+    </div>
+</div>
+
+
+<hr class="section-divider">
+<h2 class="section-title">05. Evaluations</h2>
+
+<div class="section-intro">
+    <div class="section-description"><p>Use <a href="https://www.braintrust.dev/">Braintrust</a> for evaluation workflows, then use the CSV files here as small local datasets to test with.</p>
+<p>Download the CSVs from the section's <strong>Download materials</strong> link.</p></div>
+
+    
+    <div class="section-downloads">
+        <a href="./05-evaluations/05-evaluations-materials.zip" class="section-download-btn">Download materials</a>
+    </div>
+    
+
+    
+</div>
+
+
+
+
+<hr class="section-divider">
+<h2 class="section-title">06. Structured outputs</h2>
+
+
+
+<div class="notebook-card">
+    <div class="step-number">01</div>
+    <div class="card-content">
+        <h3 class="notebook-title"><a href="./06-structured-outputs/06-openrouter-pydantic-ANSWERS.html">OpenRouter + Pydantic AI</a></h3>
+        <p class="notebook-desc">Use Pydantic AI with OpenRouter to ask questions and request structured outputs.</p>
+        
+        <div class="secondary-actions">
+            
+            <a href="./06-structured-outputs/06-openrouter-pydantic-ANSWERS.ipynb" class="action-download" download>Download .ipynb</a>
+            
+        </div>
+        
+        
+    </div>
+    <div class="card-action">
+        
+        <details class="try-menu">
+            <summary class="primary-btn">Try it</summary>
+            <div class="try-options">
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/06-structured-outputs/06-openrouter-pydantic-ANSWERS.ipynb" target="_blank" rel="noopener">Open in Colab</a>
+                
+                <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/06-structured-outputs/06-openrouter-pydantic.ipynb" target="_blank" rel="noopener">Colab (code-along)</a>
+                
+                <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+                
+            </div>
+        </details>
+        
+        <a href="./06-structured-outputs/06-openrouter-pydantic-ANSWERS.html" class="read-btn">Read</a>
     </div>
 </div>
 
@@ -282,6 +454,22 @@ function loadSlides(slideId, slideUrl) {
     if (preview) preview.style.display = 'none';
     if (container) container.style.display = 'block';
 }
+
+document.addEventListener('click', function(event) {
+    document.querySelectorAll('details.try-menu[open], details.nb-try-menu[open]').forEach(function(menu) {
+        if (!menu.contains(event.target)) {
+            menu.removeAttribute('open');
+        }
+    });
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        document.querySelectorAll('details.try-menu[open], details.nb-try-menu[open]').forEach(function(menu) {
+            menu.removeAttribute('open');
+        });
+    }
+});
 </script>
 
 <script>

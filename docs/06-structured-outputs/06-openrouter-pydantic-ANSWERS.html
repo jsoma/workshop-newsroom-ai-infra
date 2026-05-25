@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenRouter + Pydantic AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/base.css">
+    
+<link rel="stylesheet" href="../static/read.css">
+
+    <script>
+    // Set theme before paint to avoid FOUC
+    (function(){var s=localStorage.getItem('theme');var t=s||(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.className='theme-'+(t==='dark'?'noir':'broadsheet');})();
+    </script>
+</head>
+<body>
+
+<div class="theme-switcher">
+    <button class="active" onclick="setTheme('dark', this)">Dark</button>
+    <button onclick="setTheme('light', this)">Light</button>
+</div>
+
+<div class="page">
+    
+
+<nav class="nb-topnav">
+    <a href="../index.html" class="nb-topnav-home">&larr; Home</a>
+    
+    <div class="nb-topnav-title">Newsroom Infrastructure for AI Experimentation</div>
+    
+    <ol class="nb-topnav-list">
+        
+        <li>
+            
+            <a href="../01-ocr/01-gradio-ocr-simple-ANSWERS.html">OCR with Gradio: simple</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../01-ocr/01-gradio-ocr-fancy-ANSWERS.html">OCR with Gradio: fancy</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../02-text-to-speech/02-gradio-tts-simple-ANSWERS.html">Text-to-speech with Gradio: simple</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../02-text-to-speech/02-gradio-tts-fancy-ANSWERS.html">Text-to-speech with Gradio: fancy</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.html">PDF Search: notebook version</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../03-pdf-search/03-streamlit-pdf-search.html">PDF Search: Streamlit app</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../04-transfer-data/04-streamlit-transfers-simple.html">Transfers Browser: simple</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../04-transfer-data/04-streamlit-transfers-fancy.html">Transfers Browser: fancy</a>
+            
+        </li>
+        
+        <li class="is-current">
+            
+            <span class="nb-topnav-current">OpenRouter + Pydantic AI</span>
+            
+        </li>
+        
+    </ol>
+</nav>
+
+
+
+<div class="nb-actions">
+    
+    <details class="nb-try-menu">
+        <summary class="nb-action-btn nb-action-colab">Try it</summary>
+        <div class="nb-try-options">
+            
+            <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/06-structured-outputs/06-openrouter-pydantic-ANSWERS.ipynb" target="_blank" rel="noopener">Open in Colab</a>
+            
+            <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/06-structured-outputs/06-openrouter-pydantic.ipynb" target="_blank" rel="noopener">Colab (code-along)</a>
+            
+            <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+            
+        </div>
+    </details>
+    
+    
+    <a href="06-openrouter-pydantic-ANSWERS.ipynb" class="nb-action-btn nb-action-download" download>Download notebook</a>
+    
+</div>
+
+
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=d2f9983d">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Install required packages</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">ipywidgets</span> <span class="n">pandas</span> <span class="s1">'pydantic-ai-slim[openrouter]'</span> <span class="n">python</span><span class="o">-</span><span class="n">dotenv</span> <span class="n">tqdm</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'✓ Packages installed!'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=7e2a5490">
+<div class="input">
+<div class="prompt input_prompt">In [26]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">getpass</span><span class="w"> </span><span class="kn">import</span> <span class="n">getpass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="n">load_dotenv</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"OPENROUTER_API_KEY"</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"OPENROUTER_API_KEY"</span><span class="p">]</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">(</span><span class="s2">"OpenRouter API key: "</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[26]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=6d6388ed"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Pydantic-AI-basics">Pydantic AI basics<a class="anchor-link" href="#Pydantic-AI-basics">¶</a></h1><p>Pydantic AI - not to be confused with Pydantic! - is a library for interfacing with AI. It's not married to any individual provider (OpenAI, Anthropic, Google), so it's often more flexible and independent than other tools. The people who make it have a track record of quality involvement with the open-source ecosystem so I also trust its continued existence a lot more than other flashy startups.</p>
+<p>We'll start by asking a <strong>nice simple question</strong> to an LLM.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=8f45dd9f">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="s1">'openrouter:anthropic/claude-haiku-4-5'</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">'Where does "hello world" come from?'</span><span class="p">)</span>  
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre># Origins of "Hello World"
+
+The first known "Hello World" program appeared in **1974** in a C tutorial by **Brian Kernighan**. It was a simple program demonstrating how to print text.
+
+However, the phrase became widely popularized through **"The C Programming Language"** (1978), the famous textbook co-written by Kernighan and Dennis Ritchie. This book became the standard reference for C, and their "Hello World" example was adopted by countless programming tutorials that followed.
+
+## Why "Hello World"?
+
+There's no deep reason—it was simply a **convenient, recognizable phrase** for demonstrating output. The choice was somewhat arbitrary, though it's friendly and memorable. Some suggest it may have been influenced by an earlier computer science paper that used "hello, world" casually, but the exact inspiration isn't definitively documented.
+
+## Why it stuck
+
+Once it appeared in such an influential textbook, it became the **de facto first program** for learning any new language. The tradition persists today because:
+- It's simple enough for beginners
+- It's easy to verify the program works
+- It's become an informal standard and cultural touchstone in programming
+
+So while Kernighan didn't necessarily *invent* the idea, he popularized it at just the right moment in computing history.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=69042a90"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Instead of talking directly to Anthropic or OpenAI, we're using OpenRouter instead. OpenRouter offers a zillion and one models, along with much better API key management than dealing directly with the providers themselves. If you wanted to talk directly to openai, you definitely can - just use <code>openai:gpt-5-nano</code> instead.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=1a90e8b9">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="s1">'openrouter:openai/gpt-5.4-nano'</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">'Where does "hello world" come from?'</span><span class="p">)</span>  
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>“Hello, world!” is a classic example used to teach basic programming concepts. It comes from programming culture rather than a single modern invention.
+
+- **Origin (historical):** The phrase traces back to **the early days of the C language**. It was popularized by **Brian Kernighan and Dennis Ritchie** in **the book _The C Programming Language_ (1978)**, which famously used the “Hello, world” program as the first example.
+- **Why it stuck:** It’s simple to type, easy to verify (“does it run?”), and demonstrates the basic idea of producing output without requiring much prior knowledge.
+- **Earlier roots:** Variants of “hello world”-style messages existed even before C (in other languages and tutorials), but **Kernighan &amp; Ritchie’s C book is what cemented it as the standard default example** for many languages.
+
+So, while “hello world” may have appeared in earlier contexts, its widely recognized origin is **the C book (1978)** that made it the go-to beginner example.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=2109c098">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+    <span class="s1">'openrouter:openai/gpt-5.4-nano'</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="o">=</span><span class="s2">"Be very, very terse in your responses."</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">'Where does "hello world" come from?'</span><span class="p">)</span>  
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>“Hello, world!” originated from **computer programming examples**—first popularized by **Brian Kernighan** in the early **1970s** (notably in *The C Programming Language*, 1978). It became a standard phrase to demonstrate that a language/toolchain is working.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=d842463b"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Structured-output">Structured output<a class="anchor-link" href="#Structured-output">¶</a></h1><p>One of the best use cases for AI is asking for <strong>structured data</strong> from something unstructured, like court cases. Maybe we have some text we extracted from a PDF of a lawsuit:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=e0af40b1">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">lawsuit</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">Case No. 23STCV12345</span>
+<span class="s2">Let it be known that a LAWSUIT has been filed in the Superior Court of California,</span>
+<span class="s2">County of Los Angeles, on July 5 2028.</span>
+
+<span class="s2">Barnaby Rutherford vs. Tamper Media LLC</span>
+
+<span class="s2">on condition of fraud, breach of contract, and negligence.</span>
+
+<span class="s2">The plaintiff alleges that the defendant failed to deliver the</span>
+<span class="s2">agreed-upon services, resulting in financial losses and emotional distress.</span>
+<span class="s2">The lawsuit seeks compensation for damages incurred and any additional relief</span>
+<span class="s2">deemed appropriate by the court.</span>
+<span class="s2">"""</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e26bd316"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A naive approach to extract from an LLM might look like the code below.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=5bcb0ebf">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">BinaryContent</span>
+
+<span class="n">MODEL</span> <span class="o">=</span> <span class="s2">"openrouter:google/gemini-3.1-flash-lite"</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="s2">"""List the following about this lawsuit:</span>
+<span class="s2">- case number</span>
+<span class="s2">- court</span>
+<span class="s2">- state</span>
+<span class="s2">- filing date</span>
+<span class="s2">- plaintiff</span>
+<span class="s2">- defendant</span>
+<span class="s2">- claims</span>
+<span class="s2">"""</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">MODEL</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">prompt</span><span class="p">,</span> <span class="n">lawsuit</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Based on the information provided, here are the lawsuit details:
+
+*   **Case Number:** 23STCV12345
+*   **Court:** Superior Court of California, County of Los Angeles
+*   **State:** California
+*   **Filing Date:** July 5, 2028
+*   **Plaintiff:** Jonathan Soma
+*   **Defendant:** Tamper Media LLC
+*   **Claims:** Fraud, breach of contract, and negligence
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=41008291"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That's easier to read, but not perfect, though. We want something nice and programmatic, JSON or dictionaries! This is where <strong>Pydantic</strong> comes in. You build a model around what you want your response to look like.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=53ba55e0">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+
+<span class="n">MODEL</span> <span class="o">=</span> <span class="s2">"openrouter:google/gemini-3.1-flash-lite"</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">LawsuitInfo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">case_number</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">court</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">state</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">filing_date</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">plaintiff</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">defendant</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">claims</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">MODEL</span><span class="p">,</span>
+              <span class="n">instructions</span><span class="o">=</span><span class="s2">"Extract the lawsuit information"</span><span class="p">,</span>
+              <span class="n">output_type</span><span class="o">=</span><span class="n">LawsuitInfo</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">lawsuit</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>case_number='23STCV12345' court='Superior Court of California, County of Los Angeles' state='California' filing_date='July 5 2028' plaintiff='Jonathan Soma' defendant='Tamper Media LLC' claims=['fraud', 'breach of contract', 'negligence']
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=d9878162"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Working-with-a-lot-of-inputs">Working with a lot of inputs<a class="anchor-link" href="#Working-with-a-lot-of-inputs">¶</a></h1><p>Pydantic and structured outputs shine when you have a <em>lot</em> of data, like all of these car photos.</p>
+<p>You make the same setup as before.</p>
+<blockquote>
+<p>While we're at it I'm also going to get <em>very detailed</em> about what we're asking for. We could have done this before but I was trying to keep things simple!</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=89c98019">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+
+<span class="n">MODEL</span> <span class="o">=</span> <span class="s2">"openrouter:google/gemini-3.1-flash-lite"</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">LawsuitInfo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">case_number</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">court</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">state</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">filing_date</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">plaintiff</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">defendant</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">claims</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">MODEL</span><span class="p">,</span>
+              <span class="n">instructions</span><span class="o">=</span><span class="s2">"Extract the lawsuit information"</span><span class="p">,</span>
+              <span class="n">output_type</span><span class="o">=</span><span class="n">LawsuitInfo</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=497372a5"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>...and then you just loop through it, collecting the outputs and pushing them into a dataframe.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a78fdc59">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">lawsuits</span> <span class="o">=</span> <span class="p">[</span>
+
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">lawsuit</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">lawsuits</span><span class="p">):</span>
+    <span class="c1"># Get the result</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">lawsuit</span><span class="p">)</span>
+
+    <span class="c1"># Save the result</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Processed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> lawsuits."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>5it [00:13,  2.62s/it]</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Processed 5 images.
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=81a275b7">
+<div class="input">
+<div class="prompt input_prompt">In [11]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[11]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>make</th>
+<th>model</th>
+<th>color</th>
+<th>year_estimate</th>
+<th>vehicle_type</th>
+<th>confidence</th>
+<th>license_plate</th>
+<th>filename</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>Toyota</td>
+<td>Yaris</td>
+<td>yellow</td>
+<td>2018</td>
+<td>sedan</td>
+<td>1.0</td>
+<td>7กถ 4059</td>
+<td>28262480.jpg</td>
+</tr>
+<tr>
+<th>1</th>
+<td>Toyota</td>
+<td>Camry</td>
+<td>silver</td>
+<td>2014</td>
+<td>sedan</td>
+<td>1.0</td>
+<td>0050 60A</td>
+<td>28246768.jpg</td>
+</tr>
+<tr>
+<th>2</th>
+<td>Volkswagen</td>
+<td>Multivan (T6)</td>
+<td>black</td>
+<td>2018</td>
+<td>van</td>
+<td>1.0</td>
+<td>K02VV</td>
+<td>28246634.jpg</td>
+</tr>
+<tr>
+<th>3</th>
+<td>Tesla</td>
+<td>Model Y</td>
+<td>white</td>
+<td>2022</td>
+<td>SUV</td>
+<td>1.0</td>
+<td>沪A AB2295</td>
+<td>28266737.jpg</td>
+</tr>
+<tr>
+<th>4</th>
+<td>Lexus</td>
+<td>LX 570</td>
+<td>black</td>
+<td>2018</td>
+<td>SUV</td>
+<td>1.0</td>
+<td>ZJA 777</td>
+<td>28262472.jpg</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<nav class="nb-nav">
+    
+    <a href="../04-transfer-data/04-streamlit-transfers-fancy.html" class="nb-nav-prev">&larr; Transfers Browser: fancy</a>
+    
+    
+    <span></span>
+    
+</nav>
+
+
+
+
+</div>
+
+<script>
+function setTheme(theme, btn) {
+    var darkNames = {'dark':1, 'noir':1};
+    var cls = darkNames[theme] ? 'noir' : 'broadsheet';
+    document.documentElement.className = 'theme-' + cls;
+    document.querySelectorAll('.theme-switcher button').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    localStorage.setItem('theme', darkNames[theme] ? 'dark' : 'light');
+}
+
+// Sync button active state (theme already set by head script)
+(function() {
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    var label = theme === 'dark' ? 'Dark' : 'Light';
+    document.querySelectorAll('.theme-switcher button').forEach(function(b) {
+        b.classList.toggle('active', b.textContent.trim() === label);
+    });
+})();
+
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+    if (!localStorage.getItem('theme')) {
+        var cls = e.matches ? 'broadsheet' : 'noir';
+        document.documentElement.className = 'theme-' + cls;
+        var label = e.matches ? 'Light' : 'Dark';
+        document.querySelectorAll('.theme-switcher button').forEach(function(b) {
+            b.classList.toggle('active', b.textContent.trim() === label);
+        });
+    }
+});
+
+function loadSlides(slideId, slideUrl) {
+    var root = document.getElementById(slideId);
+    if (!root) return;
+    var preview = root.querySelector('.slide-preview');
+    var container = root.querySelector('.slide-container');
+    var frame = container && container.querySelector('iframe, embed');
+    if (frame && !frame.getAttribute('src')) {
+        frame.setAttribute('src', slideUrl);
+    }
+    if (preview) preview.style.display = 'none';
+    if (container) container.style.display = 'block';
+}
+
+document.addEventListener('click', function(event) {
+    document.querySelectorAll('details.try-menu[open], details.nb-try-menu[open]').forEach(function(menu) {
+        if (!menu.contains(event.target)) {
+            menu.removeAttribute('open');
+        }
+    });
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        document.querySelectorAll('details.try-menu[open], details.nb-try-menu[open]').forEach(function(menu) {
+            menu.removeAttribute('open');
+        });
+    }
+});
+</script>
+
+<script>
+// Detect blocked newsletter iframes and show a fallback link
+(function() {
+    function replaceWithLink(iframe, src) {
+        var link = document.createElement('a');
+        link.href = src;
+        link.className = 'newsletter-fallback-btn';
+        link.innerHTML = 'Subscribe to the newsletter &rarr;';
+        iframe.replaceWith(link);
+        // Also hide the beehiiv script tag if present
+        var scripts = document.querySelectorAll('.newsletter-signup script');
+        scripts.forEach(function(s) { s.remove(); });
+    }
+    document.querySelectorAll('.newsletter-signup iframe').forEach(function(iframe) {
+        var src = iframe.src;
+        if (!src) return;
+        // Check iframe dimensions after it settles — blocked iframes
+        // typically render as 0-height or very small
+        var timer = setTimeout(function() {
+            var h = iframe.offsetHeight || iframe.getBoundingClientRect().height;
+            if (h < 20) {
+                replaceWithLink(iframe, src);
+            }
+        }, 3000);
+    });
+})();
+</script>
+</body>
+</html>

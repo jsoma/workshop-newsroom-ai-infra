@@ -69,6 +69,41 @@
     font-size: 1.1em;
     vertical-align: 0.15em;
 }
+.nb-try-menu {
+    position: relative;
+    display: inline-block;
+}
+.nb-try-menu > summary {
+    cursor: pointer;
+    list-style: none;
+}
+.nb-try-menu > summary::-webkit-details-marker {
+    display: none;
+}
+.nb-try-menu > .nb-action-colab::after {
+    content: ' \25BE';
+    font-size: 0.9em;
+}
+.nb-try-options {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 6px);
+    z-index: 50;
+    display: none;
+    min-width: 190px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+.nb-try-menu[open] .nb-try-options {
+    display: flex;
+    flex-direction: column;
+}
+.nb-try-options a {
+    display: block;
+    padding: 0.65em 0.85em;
+    text-decoration: none;
+    white-space: nowrap;
+}
 
 /* Notebook cells */
 .cell { margin-bottom: 1.5em; }
@@ -212,6 +247,16 @@
 .theme-noir .nb-action-btn:hover { background: #222; color: #e8e4dc; }
 .theme-noir .nb-action-colab { background: #e8e4dc; color: #111; border-color: #e8e4dc; }
 .theme-noir .nb-action-colab:hover { background: #fff; border-color: #fff; }
+.theme-noir .nb-try-options {
+    background: #181818;
+    border: 1px solid #444;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.theme-noir .nb-try-options a { color: #ddd; }
+.theme-noir .nb-try-options a:hover {
+    background: #242424;
+    color: #fff;
+}
 
 .theme-noir .nb-nav { border-top: 1px solid #222; }
 .theme-noir .nb-nav a { font-family: 'Inter', sans-serif; color: #c0392b; }
@@ -361,6 +406,16 @@
 .theme-broadsheet .nb-action-btn:hover { background: #1a1a1a; color: #f0ece4; }
 .theme-broadsheet .nb-action-colab { background: #fff; border-color: #1a1a1a; color: #1a1a1a; }
 .theme-broadsheet .nb-action-colab:hover { background: #1a1a1a; color: #f0ece4; }
+.theme-broadsheet .nb-try-options {
+    background: #f5f0e6;
+    border: 2px solid #1a1a1a;
+    box-shadow: 6px 6px 0 #1a1a1a;
+}
+.theme-broadsheet .nb-try-options a { color: #1a1a1a; }
+.theme-broadsheet .nb-try-options a:hover {
+    background: #1a1a1a;
+    color: #f5f0e6;
+}
 
 .theme-broadsheet .nb-nav { border-top: 2px solid #1a1a1a; }
 .theme-broadsheet .nb-nav a { font-family: 'IBM Plex Sans', sans-serif; color: #8b5e3c; font-weight: 500; }

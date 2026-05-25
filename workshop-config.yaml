@@ -10,9 +10,10 @@ slides: "AI Experimentation.pptx"
 default_install: []
 
 sections:
-  - title: "Gradio demos"
+  - title: "01. OCR"
     folder: "."
     markdown: false
+    description: "Here is some *sample text*."
     notebooks:
       "01-gradio-ocr-simple.ipynb":
         title: "OCR with Gradio: simple"
@@ -40,10 +41,15 @@ sections:
           - transformers
           - accelerate
           - sentencepiece
+
+  - title: "02. Text-to-speech"
+    folder: "."
+    markdown: false
+    notebooks:
       "02-gradio-tts-simple.ipynb":
         title: "Text-to-speech with Gradio: simple"
         description: "A small Kokoro ONNX text-to-speech demo."
-        order: 3
+        order: 1
         install:
           - gradio
           - ipywidgets
@@ -55,7 +61,7 @@ sections:
       "02-gradio-tts-fancy.ipynb":
         title: "Text-to-speech with Gradio: fancy"
         description: "A larger TTS demo with Kokoro ONNX and MMS options."
-        order: 4
+        order: 2
         install:
           - gradio
           - ipywidgets
@@ -68,29 +74,70 @@ sections:
           - transformers
           - sentencepiece
 
-  - title: "Streamlit apps"
+  - title: "03. PDF search"
+    folder: "."
+    markdown: false
+    notebooks:
+      "03-streamlit-pdf-search-manual.ipynb":
+        title: "PDF Search: notebook version"
+        description: "A notebook walkthrough that reads local PDFs, embeds each page, and ranks semantic search results."
+        order: 1
+        install:
+          - ipywidgets
+          - pymupdf
+          - pandas
+          - sentence-transformers
+    apps:
+      - path: "03-streamlit-pdf-search.py"
+        title: "PDF Search: Streamlit app"
+        description: "Semantic search over local PDFs using sentence-transformer embeddings."
+        order: 2
+        kind: "streamlit"
+        command: "uv run streamlit run 03-streamlit-pdf-search.py --server.address 0.0.0.0 --server.port 8501"
+        port: 8501
+
+  - title: "04. Transfer data"
     folder: "."
     notebooks: false
     markdown: false
     apps:
-      - path: "03-streamlit-pdf-search.py"
-        title: "PDF Search"
-        description: "Semantic search over local PDFs using sentence-transformer embeddings."
-        order: 1
-        kind: "streamlit"
-        command: "uv run streamlit run 03-streamlit-pdf-search.py --server.address 0.0.0.0 --server.port 8501"
-        port: 8501
       - path: "04-streamlit-transfers-simple.py"
         title: "Transfers Browser: simple"
         description: "A simple Streamlit browser for local property transfer data."
-        order: 2
+        order: 1
         kind: "streamlit"
         command: "uv run streamlit run 04-streamlit-transfers-simple.py --server.address 0.0.0.0 --server.port 8502"
         port: 8502
       - path: "04-streamlit-transfers-fancy.py"
         title: "Transfers Browser: fancy"
         description: "A fuller Streamlit transfer-data app with charts, filters, and summaries."
-        order: 3
+        order: 2
         kind: "streamlit"
         command: "uv run streamlit run 04-streamlit-transfers-fancy.py --server.address 0.0.0.0 --server.port 8503"
         port: 8503
+
+  - title: "05. Evaluations"
+    folder: "data/evaluations"
+    notebooks: false
+    markdown: false
+    description: |
+      Use [Braintrust](https://www.braintrust.dev/) for evaluation workflows, then use the CSV files here as small local datasets to test with.
+
+      Download the CSVs from the section's **Download materials** link.
+    downloads:
+      - "*.csv"
+
+  - title: "06. Structured outputs"
+    folder: "."
+    markdown: false
+    notebooks:
+      "06-openrouter-pydantic.ipynb":
+        title: "OpenRouter + Pydantic AI"
+        description: "Use Pydantic AI with OpenRouter to ask questions and request structured outputs."
+        order: 1
+        install:
+          - ipywidgets
+          - pandas
+          - pydantic-ai-slim[openrouter]
+          - python-dotenv
+          - tqdm

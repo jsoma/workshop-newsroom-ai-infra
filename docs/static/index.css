@@ -3,8 +3,42 @@
    ================================================================ */
 .notebook-card { position: relative; }
 
+.card-action {
+    width: 9rem;
+}
+.card-action .try-menu,
+.card-action .primary-btn,
+.card-action .read-btn {
+    box-sizing: border-box;
+    width: 100%;
+}
+
 .section-title {
     margin: 0;
+}
+.section-intro {
+    margin-top: 0;
+}
+.section-description {
+    margin: 0 0 1.4em;
+    max-width: 720px;
+}
+.section-description > :first-child {
+    margin-top: 0;
+}
+.section-description p {
+    margin: 0 0 1em;
+}
+.section-description ul,
+.section-description ol {
+    margin: 0 0 1em;
+    padding-left: 1.4em;
+}
+.section-description li {
+    padding-left: 0.15em;
+}
+.section-description > :last-child {
+    margin-bottom: 0;
 }
 
 .secondary-actions {
@@ -50,6 +84,40 @@
 .primary-btn::after {
     content: ' \2197';
     font-size: 0.85em;
+}
+.try-menu {
+    position: relative;
+    display: inline-block;
+}
+.try-menu > summary {
+    cursor: pointer;
+    list-style: none;
+}
+.try-menu > summary::-webkit-details-marker {
+    display: none;
+}
+.try-menu > .primary-btn::after {
+    content: ' \25BE';
+}
+.try-options {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    z-index: 50;
+    display: none;
+    min-width: 180px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+.try-menu[open] .try-options {
+    display: flex;
+    flex-direction: column;
+}
+.try-options a {
+    display: block;
+    padding: 0.65em 0.85em;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 .action-codealong::before {
@@ -151,6 +219,16 @@
     background: #e8e4dc;
     color: #111;
 }
+.theme-noir .site-action-highlight {
+    background: #e8e4dc;
+    border-color: #e8e4dc;
+    color: #111;
+}
+.theme-noir .site-action-highlight:hover {
+    background: #fff;
+    border-color: #fff;
+    color: #111;
+}
 
 .theme-noir .section-divider {
     border: none;
@@ -165,6 +243,21 @@
     text-transform: uppercase;
     color: #777;
     margin: 0 0 0.8em;
+}
+.theme-noir .section-description {
+    color: #888;
+}
+.theme-noir .section-description a {
+    color: #e8e4dc;
+}
+
+.theme-noir .section-intro {
+    border-top: 1px solid #222;
+    padding: 1.8em 0;
+}
+
+.theme-noir .section-intro > * {
+    margin-left: 72px;
 }
 
 .theme-noir .section-download-btn {
@@ -247,6 +340,30 @@
     border-color: #e8e4dc;
     background: #e8e4dc;
     color: #111;
+}
+.theme-noir .try-menu > .primary-btn {
+    background: #e8e4dc;
+    border-color: #e8e4dc;
+    color: #111;
+}
+.theme-noir .try-menu > .primary-btn:hover {
+    background: #fff;
+    border-color: #fff;
+    color: #111;
+}
+.theme-noir .try-options {
+    background: #181818;
+    border: 1px solid #444;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.theme-noir .try-options a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78em;
+    color: #ddd;
+}
+.theme-noir .try-options a:hover {
+    background: #242424;
+    color: #fff;
 }
 
 .theme-noir .read-btn {
@@ -406,6 +523,14 @@
     background: #1a1a1a;
     color: #f5f0e6;
 }
+.theme-broadsheet .site-action-highlight {
+    background: #1a1a1a;
+    color: #f5f0e6;
+}
+.theme-broadsheet .site-action-highlight:hover {
+    background: #c0392b;
+    border-color: #c0392b;
+}
 
 .theme-broadsheet .section-divider {
     border: none;
@@ -420,6 +545,12 @@
     text-transform: uppercase;
     color: #1a1a1a;
     margin: 0 0 0.8em;
+}
+.theme-broadsheet .section-description {
+    color: #4c473f;
+}
+.theme-broadsheet .section-description a {
+    color: #8b5e3c;
 }
 
 .theme-broadsheet .section-download-btn {
@@ -506,6 +637,20 @@
 .theme-broadsheet .primary-btn:hover {
     background: #c0392b;
 }
+.theme-broadsheet .try-options {
+    background: #f5f0e6;
+    border: 2px solid #1a1a1a;
+    box-shadow: 6px 6px 0 #1a1a1a;
+}
+.theme-broadsheet .try-options a {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.9em;
+    color: #1a1a1a;
+}
+.theme-broadsheet .try-options a:hover {
+    background: #1a1a1a;
+    color: #f5f0e6;
+}
 
 .theme-broadsheet .read-btn {
     display: inline-block;
@@ -583,6 +728,8 @@
     .theme-broadsheet .card-action {
         grid-column: 1;
         margin-top: 0.8em;
+        width: 100%;
+        max-width: 12rem;
     }
     .theme-noir .primary-btn,
     .theme-broadsheet .primary-btn,
@@ -595,5 +742,8 @@
     .theme-noir .ref-links,
     .theme-broadsheet .ref-links {
         grid-column: 1;
+    }
+    .theme-noir .section-intro > * {
+        margin-left: 0;
     }
 }

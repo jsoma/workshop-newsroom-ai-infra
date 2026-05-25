@@ -12,48 +12,76 @@ Small local demos for OCR, text-to-speech, semantic PDF search, and Streamlit da
 
 ## Materials
 
-### Gradio demos
+### 01. OCR
+
+Here is some *sample text*.
 
 #### OCR with Gradio: simple
 
 A tiny PDF OCR interface using RapidOCR.
 
-[Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/01-gradio-ocr-simple-ANSWERS.ipynb) | [Open in Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Code-along](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/01-gradio-ocr-simple.ipynb) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/gradio-demos/01-gradio-ocr-simple-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/gradio-demos/01-gradio-ocr-simple-ANSWERS.html)
+Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-simple-ANSWERS.ipynb) | [Colab (code-along)](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-simple.ipynb) | [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/01-ocr/01-gradio-ocr-simple-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/01-ocr/01-gradio-ocr-simple-ANSWERS.html)
 
 #### OCR with Gradio: fancy
 
 A richer OCR interface with preview, page ranges, and engine selection.
 
-[Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/01-gradio-ocr-fancy-ANSWERS.ipynb) | [Open in Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Code-along](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/01-gradio-ocr-fancy.ipynb) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/gradio-demos/01-gradio-ocr-fancy-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/gradio-demos/01-gradio-ocr-fancy-ANSWERS.html)
+Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-fancy-ANSWERS.ipynb) | [Colab (code-along)](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-fancy.ipynb) | [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/01-ocr/01-gradio-ocr-fancy-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/01-ocr/01-gradio-ocr-fancy-ANSWERS.html)
+
+### 02. Text-to-speech
 
 #### Text-to-speech with Gradio: simple
 
 A small Kokoro ONNX text-to-speech demo.
 
-[Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/02-gradio-tts-simple-ANSWERS.ipynb) | [Open in Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Code-along](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/02-gradio-tts-simple.ipynb) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/gradio-demos/02-gradio-tts-simple-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/gradio-demos/02-gradio-tts-simple-ANSWERS.html)
+Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/02-text-to-speech/02-gradio-tts-simple-ANSWERS.ipynb) | [Colab (code-along)](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/02-text-to-speech/02-gradio-tts-simple.ipynb) | [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/02-text-to-speech/02-gradio-tts-simple-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/02-text-to-speech/02-gradio-tts-simple-ANSWERS.html)
 
 #### Text-to-speech with Gradio: fancy
 
 A larger TTS demo with Kokoro ONNX and MMS options.
 
-[Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/02-gradio-tts-fancy-ANSWERS.ipynb) | [Open in Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Code-along](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/gradio-demos/02-gradio-tts-fancy.ipynb) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/gradio-demos/02-gradio-tts-fancy-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/gradio-demos/02-gradio-tts-fancy-ANSWERS.html)
+Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/02-text-to-speech/02-gradio-tts-fancy-ANSWERS.ipynb) | [Colab (code-along)](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/02-text-to-speech/02-gradio-tts-fancy.ipynb) | [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/02-text-to-speech/02-gradio-tts-fancy-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/02-text-to-speech/02-gradio-tts-fancy-ANSWERS.html)
 
-### Streamlit apps
+### 03. PDF search
 
-#### PDF Search
+#### PDF Search: notebook version
+
+A notebook walkthrough that reads local PDFs, embeds each page, and ranks semantic search results.
+
+Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.ipynb) | [Colab (code-along)](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/03-pdf-search/03-streamlit-pdf-search-manual.ipynb) | [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.html)
+
+#### PDF Search: Streamlit app
 
 Semantic search over local PDFs using sentence-transformer embeddings.
 
-[Open in Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .py](https://jsoma.github.io/workshop-newsroom-ai-infra/streamlit-apps/03-streamlit-pdf-search.py) | [Read code](https://jsoma.github.io/workshop-newsroom-ai-infra/streamlit-apps/03-streamlit-pdf-search.html)
+Try: [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .py](https://jsoma.github.io/workshop-newsroom-ai-infra/03-pdf-search/03-streamlit-pdf-search.py) | [Read code](https://jsoma.github.io/workshop-newsroom-ai-infra/03-pdf-search/03-streamlit-pdf-search.html)
+
+### 04. Transfer data
 
 #### Transfers Browser: simple
 
 A simple Streamlit browser for local property transfer data.
 
-[Open in Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .py](https://jsoma.github.io/workshop-newsroom-ai-infra/streamlit-apps/04-streamlit-transfers-simple.py) | [Read code](https://jsoma.github.io/workshop-newsroom-ai-infra/streamlit-apps/04-streamlit-transfers-simple.html)
+Try: [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .py](https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-streamlit-transfers-simple.py) | [Read code](https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-streamlit-transfers-simple.html)
 
 #### Transfers Browser: fancy
 
 A fuller Streamlit transfer-data app with charts, filters, and summaries.
 
-[Open in Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .py](https://jsoma.github.io/workshop-newsroom-ai-infra/streamlit-apps/04-streamlit-transfers-fancy.py) | [Read code](https://jsoma.github.io/workshop-newsroom-ai-infra/streamlit-apps/04-streamlit-transfers-fancy.html)
+Try: [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .py](https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-streamlit-transfers-fancy.py) | [Read code](https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-streamlit-transfers-fancy.html)
+
+### 05. Evaluations
+
+Use [Braintrust](https://www.braintrust.dev/) for evaluation workflows, then use the CSV files here as small local datasets to test with.
+
+Download the CSVs from the section's **Download materials** link.
+
+[Download materials](https://jsoma.github.io/workshop-newsroom-ai-infra/05-evaluations/05-evaluations-materials.zip)
+
+### 06. Structured outputs
+
+#### OpenRouter + Pydantic AI
+
+Use Pydantic AI with OpenRouter to ask questions and request structured outputs.
+
+Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/06-structured-outputs/06-openrouter-pydantic-ANSWERS.ipynb) | [Colab (code-along)](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/06-structured-outputs/06-openrouter-pydantic.ipynb) | [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/06-structured-outputs/06-openrouter-pydantic-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/06-structured-outputs/06-openrouter-pydantic-ANSWERS.html)
