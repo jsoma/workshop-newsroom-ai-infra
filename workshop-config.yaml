@@ -7,21 +7,7 @@ github_branch: "main"
 output_dir: "docs"
 execution_environment: "project"
 slides: "AI Experimentation.pptx"
-default_install:
-  - gradio
-  - ipywidgets
-  - pymupdf
-  - rapidocr
-  - opencv-python-headless
-  - onnxruntime
-  - kokoro-onnx
-  - requests
-  - numpy
-  - soundfile
-  - torch
-  - transformers
-  - accelerate
-  - sentencepiece
+default_install: []
 
 sections:
   - title: "Gradio demos"
@@ -32,18 +18,55 @@ sections:
         title: "OCR with Gradio: simple"
         description: "A tiny PDF OCR interface using RapidOCR."
         order: 1
+        install:
+          - gradio
+          - ipywidgets
+          - pymupdf
+          - rapidocr
+          - opencv-python-headless
+          - onnxruntime
       "01-gradio-ocr-fancy.ipynb":
         title: "OCR with Gradio: fancy"
         description: "A richer OCR interface with preview, page ranges, and engine selection."
         order: 2
+        install:
+          - gradio
+          - ipywidgets
+          - pymupdf
+          - rapidocr
+          - opencv-python-headless
+          - onnxruntime
+          - torch
+          - transformers
+          - accelerate
+          - sentencepiece
       "02-gradio-tts-simple.ipynb":
         title: "Text-to-speech with Gradio: simple"
         description: "A small Kokoro ONNX text-to-speech demo."
         order: 3
+        install:
+          - gradio
+          - ipywidgets
+          - kokoro-onnx
+          - onnxruntime
+          - requests
+          - numpy
+          - soundfile
       "02-gradio-tts-fancy.ipynb":
         title: "Text-to-speech with Gradio: fancy"
         description: "A larger TTS demo with Kokoro ONNX and MMS options."
         order: 4
+        install:
+          - gradio
+          - ipywidgets
+          - kokoro-onnx
+          - onnxruntime
+          - requests
+          - numpy
+          - soundfile
+          - torch
+          - transformers
+          - sentencepiece
 
   - title: "Streamlit apps"
     folder: "."
