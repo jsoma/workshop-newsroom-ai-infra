@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Streamlit: PDF Search",
+      "type": "shell",
+      "command": "uv run streamlit run 03-streamlit-pdf-search.py --server.address 0.0.0.0 --server.port 8501",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "Run Streamlit: Transfers Simple",
+      "type": "shell",
+      "command": "uv run streamlit run 04-streamlit-transfers-simple.py --server.address 0.0.0.0 --server.port 8502",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "Run Streamlit: Transfers Fancy",
+      "type": "shell",
+      "command": "uv run streamlit run 04-streamlit-transfers-fancy.py --server.address 0.0.0.0 --server.port 8503",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    }
+  ]
+}

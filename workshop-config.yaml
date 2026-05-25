@@ -1,0 +1,73 @@
+title: "Newsroom Infrastructure for AI Experimentation"
+description: "Small local demos for OCR, text-to-speech, semantic PDF search, and Streamlit data browsing."
+author: "Jonathan Soma"
+conference_label: "DataHarvest 2026"
+github_repo: "jsoma/workshop-newsroom-ai-infra"
+github_branch: "main"
+output_dir: "docs"
+execution_environment: "project"
+slides: "AI Experimentation.pptx"
+default_install:
+  - gradio
+  - ipywidgets
+  - pymupdf
+  - rapidocr
+  - opencv-python-headless
+  - onnxruntime
+  - kokoro-onnx
+  - requests
+  - numpy
+  - soundfile
+  - torch
+  - transformers
+  - accelerate
+  - sentencepiece
+
+sections:
+  - title: "Gradio demos"
+    folder: "."
+    markdown: false
+    notebooks:
+      "01-gradio-ocr-simple.ipynb":
+        title: "OCR with Gradio: simple"
+        description: "A tiny PDF OCR interface using RapidOCR."
+        order: 1
+      "01-gradio-ocr-fancy.ipynb":
+        title: "OCR with Gradio: fancy"
+        description: "A richer OCR interface with preview, page ranges, and engine selection."
+        order: 2
+      "02-gradio-tts-simple.ipynb":
+        title: "Text-to-speech with Gradio: simple"
+        description: "A small Kokoro ONNX text-to-speech demo."
+        order: 3
+      "02-gradio-tts-fancy.ipynb":
+        title: "Text-to-speech with Gradio: fancy"
+        description: "A larger TTS demo with Kokoro ONNX and MMS options."
+        order: 4
+
+  - title: "Streamlit apps"
+    folder: "."
+    notebooks: false
+    markdown: false
+    apps:
+      - path: "03-streamlit-pdf-search.py"
+        title: "PDF Search"
+        description: "Semantic search over local PDFs using sentence-transformer embeddings."
+        order: 1
+        kind: "streamlit"
+        command: "uv run streamlit run 03-streamlit-pdf-search.py --server.address 0.0.0.0 --server.port 8501"
+        port: 8501
+      - path: "04-streamlit-transfers-simple.py"
+        title: "Transfers Browser: simple"
+        description: "A simple Streamlit browser for local property transfer data."
+        order: 2
+        kind: "streamlit"
+        command: "uv run streamlit run 04-streamlit-transfers-simple.py --server.address 0.0.0.0 --server.port 8502"
+        port: 8502
+      - path: "04-streamlit-transfers-fancy.py"
+        title: "Transfers Browser: fancy"
+        description: "A fuller Streamlit transfer-data app with charts, filters, and summaries."
+        order: 3
+        kind: "streamlit"
+        command: "uv run streamlit run 04-streamlit-transfers-fancy.py --server.address 0.0.0.0 --server.port 8503"
+        port: 8503

@@ -11,7 +11,6 @@ import streamlit as st
 from sentence_transformers import SentenceTransformer
 
 
-# Run with: .venv/bin/streamlit run pdf_search_app.py
 APP_DIR = Path(__file__).parent
 DATA_DIR = APP_DIR / "data"
 PDF_DIR = DATA_DIR / "pdfs"

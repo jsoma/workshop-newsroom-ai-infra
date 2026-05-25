@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Transfers Browser: simple</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/base.css">
+    
+<link rel="stylesheet" href="../static/read.css">
+
+    <script>
+    // Set theme before paint to avoid FOUC
+    (function(){var s=localStorage.getItem('theme');var t=s||(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.className='theme-'+(t==='dark'?'noir':'broadsheet');})();
+    </script>
+</head>
+<body>
+
+<div class="theme-switcher">
+    <button class="active" onclick="setTheme('dark', this)">Dark</button>
+    <button onclick="setTheme('light', this)">Light</button>
+</div>
+
+<div class="page">
+    
+
+<nav class="nb-topnav">
+    <a href="../index.html" class="nb-topnav-home">&larr; Home</a>
+    
+    <div class="nb-topnav-title">Newsroom Infrastructure for AI Experimentation</div>
+    
+    <ol class="nb-topnav-list">
+        
+        <li>
+            
+            <a href="../gradio-demos/01-gradio-ocr-simple-ANSWERS.html">OCR with Gradio: simple</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../gradio-demos/01-gradio-ocr-fancy-ANSWERS.html">OCR with Gradio: fancy</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../gradio-demos/02-gradio-tts-simple-ANSWERS.html">Text-to-speech with Gradio: simple</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../gradio-demos/02-gradio-tts-fancy-ANSWERS.html">Text-to-speech with Gradio: fancy</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="03-streamlit-pdf-search.html">PDF Search</a>
+            
+        </li>
+        
+        <li class="is-current">
+            
+            <span class="nb-topnav-current">Transfers Browser: simple</span>
+            
+        </li>
+        
+        <li>
+            
+            <a href="04-streamlit-transfers-fancy.html">Transfers Browser: fancy</a>
+            
+        </li>
+        
+    </ol>
+</nav>
+
+
+
+<div class="nb-actions">
+    
+    <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" class="nb-action-btn nb-action-colab" target="_blank" rel="noopener">Open in Codespaces</a>
+    
+    <a href="04-streamlit-transfers-simple.py" class="nb-action-btn nb-action-download" download>Download .py</a>
+    
+</div>
+
+
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=17e94b33"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Transfers-Browser:-simple">Transfers Browser: simple<a class="anchor-link" href="#Transfers-Browser:-simple">¶</a></h1><p>A simple Streamlit browser for local property transfer data.</p>
+<p>This app is meant to run from the workshop repo, either locally or in Codespaces.</p>
+<h2 id="Run-command">Run command<a class="anchor-link" href="#Run-command">¶</a></h2><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>streamlit<span class="w"> </span>run<span class="w"> </span><span class="m">04</span>-streamlit-transfers-simple.py<span class="w"> </span>--server.address<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--server.port<span class="w"> </span><span class="m">8502</span>
+</pre></div>
+<p>Port: <code>8502</code></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered celltag_skip-execution" id="cell-id=18997201">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
+
+<span class="n">APP_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">set_page_config</span><span class="p">(</span><span class="n">page_title</span><span class="o">=</span><span class="s2">"Transfers Browser"</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s2">"wide"</span><span class="p">)</span>
+<span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Transfers Browser"</span><span class="p">)</span>
+
+<span class="nd">@st</span><span class="o">.</span><span class="n">cache_data</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+        <span class="n">APP_DIR</span> <span class="o">/</span> <span class="s2">"data/transfers.csv"</span><span class="p">,</span>
+        <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">"transfer_date_parsed"</span><span class="p">],</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">"consideration"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+            <span class="s2">"assessment_total"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">"transfer_date_parsed"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"transfer_date_parsed"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"transfer_date_parsed"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+
+<span class="c1">###</span>
+<span class="c1"># Build the filters</span>
+<span class="c1">###</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">header</span><span class="p">(</span><span class="s2">"Filters"</span><span class="p">)</span>
+
+<span class="n">dates</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"transfer_date_parsed"</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">date_min</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">date_max</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="n">date_range</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">slider</span><span class="p">(</span>
+    <span class="s2">"Transfer date"</span><span class="p">,</span>
+    <span class="n">min_value</span><span class="o">=</span><span class="n">date_min</span><span class="p">,</span>
+    <span class="n">max_value</span><span class="o">=</span><span class="n">date_max</span><span class="p">,</span>
+    <span class="n">value</span><span class="o">=</span><span class="p">(</span><span class="n">date_min</span><span class="p">,</span> <span class="n">date_max</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">transfer_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"All"</span><span class="p">]</span> <span class="o">+</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"transfer_description"</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">transfer_type</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">"Transfer type"</span><span class="p">,</span> <span class="n">transfer_types</span><span class="p">)</span>
+
+<span class="n">grantor_search</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">"Grantor contains"</span><span class="p">)</span>
+<span class="n">grantee_search</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">"Grantee contains"</span><span class="p">)</span>
+
+<span class="c1"># Filters</span>
+
+<span class="n">filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">"transfer_date_parsed"</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">date_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">date_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="k">if</span> <span class="n">transfer_type</span> <span class="o">!=</span> <span class="s2">"All"</span><span class="p">:</span>
+    <span class="n">filtered</span> <span class="o">=</span> <span class="n">filtered</span><span class="p">[</span><span class="n">filtered</span><span class="p">[</span><span class="s2">"transfer_description"</span><span class="p">]</span> <span class="o">==</span> <span class="n">transfer_type</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="n">grantor_search</span><span class="p">:</span>
+    <span class="n">grantor_matches</span> <span class="o">=</span> <span class="n">filtered</span><span class="p">[</span><span class="s2">"grantor"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span>
+        <span class="n">grantor_search</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">filtered</span> <span class="o">=</span> <span class="n">filtered</span><span class="p">[</span><span class="n">grantor_matches</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="n">grantee_search</span><span class="p">:</span>
+    <span class="n">grantee_matches</span> <span class="o">=</span> <span class="n">filtered</span><span class="p">[</span><span class="s2">"grantee"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span>
+        <span class="n">grantee_search</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">filtered</span> <span class="o">=</span> <span class="n">filtered</span><span class="p">[</span><span class="n">grantee_matches</span><span class="p">]</span>
+
+<span class="c1">###</span>
+<span class="c1"># Make three columns with summary metrics</span>
+<span class="c1">###</span>
+
+<span class="n">median_price</span> <span class="o">=</span> <span class="n">filtered</span><span class="p">[</span><span class="n">filtered</span><span class="p">[</span><span class="s2">"consideration"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">][</span><span class="s2">"consideration"</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+
+<span class="n">col1</span><span class="p">,</span> <span class="n">col2</span><span class="p">,</span> <span class="n">col3</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">col1</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="s2">"Transfers"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">col2</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="s2">"Unique parcels"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">filtered</span><span class="p">[</span><span class="s1">'parcel_id'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">col3</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="s2">"Median non-zero price"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">median_price</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1">###</span>
+<span class="c1"># Show the filtered records</span>
+<span class="c1">### </span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">"Records"</span><span class="p">)</span>
+
+<span class="n">columns_to_show</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"transfer_date_parsed"</span><span class="p">,</span>
+    <span class="s2">"parcel_id"</span><span class="p">,</span>
+    <span class="s2">"grantor"</span><span class="p">,</span>
+    <span class="s2">"grantee"</span><span class="p">,</span>
+    <span class="s2">"consideration"</span><span class="p">,</span>
+    <span class="s2">"transfer_description"</span><span class="p">,</span>
+    <span class="s2">"physical_address"</span><span class="p">,</span>
+    <span class="s2">"city_state"</span><span class="p">,</span>
+    <span class="s2">"assessment_total"</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">records</span> <span class="o">=</span> <span class="n">filtered</span><span class="p">[</span><span class="n">columns_to_show</span><span class="p">]</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span>
+    <span class="n">records</span><span class="p">,</span>
+    <span class="n">column_config</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"assessment_total"</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">column_config</span><span class="o">.</span><span class="n">NumberColumn</span><span class="p">(</span>
+            <span class="s2">"assessment_total"</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">"$,</span><span class="si">%d</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">"consideration"</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">column_config</span><span class="o">.</span><span class="n">NumberColumn</span><span class="p">(</span>
+            <span class="s2">"consideration"</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">"$,</span><span class="si">%d</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">},</span>
+    <span class="n">width</span><span class="o">=</span><span class="s2">"stretch"</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">download_button</span><span class="p">(</span>
+    <span class="s2">"Download filtered rows"</span><span class="p">,</span>
+    <span class="n">filtered</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">),</span>
+    <span class="s2">"filtered_transfers.csv"</span><span class="p">,</span>
+    <span class="s2">"text/csv"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<nav class="nb-nav">
+    
+    <a href="03-streamlit-pdf-search.html" class="nb-nav-prev">&larr; PDF Search</a>
+    
+    
+    <a href="04-streamlit-transfers-fancy.html" class="nb-nav-next">Transfers Browser: fancy &rarr;</a>
+    
+</nav>
+
+
+
+
+</div>
+
+<script>
+function setTheme(theme, btn) {
+    var darkNames = {'dark':1, 'noir':1};
+    var cls = darkNames[theme] ? 'noir' : 'broadsheet';
+    document.documentElement.className = 'theme-' + cls;
+    document.querySelectorAll('.theme-switcher button').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    localStorage.setItem('theme', darkNames[theme] ? 'dark' : 'light');
+}
+
+// Sync button active state (theme already set by head script)
+(function() {
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    var label = theme === 'dark' ? 'Dark' : 'Light';
+    document.querySelectorAll('.theme-switcher button').forEach(function(b) {
+        b.classList.toggle('active', b.textContent.trim() === label);
+    });
+})();
+
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+    if (!localStorage.getItem('theme')) {
+        var cls = e.matches ? 'broadsheet' : 'noir';
+        document.documentElement.className = 'theme-' + cls;
+        var label = e.matches ? 'Light' : 'Dark';
+        document.querySelectorAll('.theme-switcher button').forEach(function(b) {
+            b.classList.toggle('active', b.textContent.trim() === label);
+        });
+    }
+});
+
+function loadSlides(slideId, slideUrl) {
+    var root = document.getElementById(slideId);
+    if (!root) return;
+    var preview = root.querySelector('.slide-preview');
+    var container = root.querySelector('.slide-container');
+    var frame = container && container.querySelector('iframe, embed');
+    if (frame && !frame.getAttribute('src')) {
+        frame.setAttribute('src', slideUrl);
+    }
+    if (preview) preview.style.display = 'none';
+    if (container) container.style.display = 'block';
+}
+</script>
+
+<script>
+// Detect blocked newsletter iframes and show a fallback link
+(function() {
+    function replaceWithLink(iframe, src) {
+        var link = document.createElement('a');
+        link.href = src;
+        link.className = 'newsletter-fallback-btn';
+        link.innerHTML = 'Subscribe to the newsletter &rarr;';
+        iframe.replaceWith(link);
+        // Also hide the beehiiv script tag if present
+        var scripts = document.querySelectorAll('.newsletter-signup script');
+        scripts.forEach(function(s) { s.remove(); });
+    }
+    document.querySelectorAll('.newsletter-signup iframe').forEach(function(iframe) {
+        var src = iframe.src;
+        if (!src) return;
+        // Check iframe dimensions after it settles — blocked iframes
+        // typically render as 0-height or very small
+        var timer = setTimeout(function() {
+            var h = iframe.offsetHeight || iframe.getBoundingClientRect().height;
+            if (h < 20) {
+                replaceWithLink(iframe, src);
+            }
+        }, 3000);
+    });
+})();
+</script>
+</body>
+</html>
