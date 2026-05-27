@@ -13,7 +13,7 @@ sections:
   - title: "01. OCR"
     folder: "."
     markdown: false
-    description: "Here is some *sample text*."
+    description: "Journalists often deal with scanned texts, but the best tools are locked behind code. How can we help non-technical users try out our favorite libaries without forcing them through installing Python and running notebooks?"
     notebooks:
       "01-gradio-ocr-simple.ipynb":
         title: "OCR with Gradio: simple"
@@ -45,6 +45,7 @@ sections:
   - title: "02. Text-to-speech"
     folder: "."
     markdown: false
+    description: "Newsrooms' C-suites have *loved* auto-generated podcasts recently, but the rest of the publication is often split. How can we let everyone have a hand in demoing the product to show its strengths and weaknesses?"
     notebooks:
       "02-gradio-tts-simple.ipynb":
         title: "Text-to-speech with Gradio: simple"
@@ -77,6 +78,7 @@ sections:
   - title: "03. PDF search"
     folder: "."
     markdown: false
+    description: "Semantic search is a useful tool for investigative work, but you don't always want to upload all of your docs into a Google product. Can a home-grown version work just as well?"
     notebooks:
       "03-streamlit-pdf-search-manual.ipynb":
         title: "PDF Search: notebook version"
@@ -100,6 +102,7 @@ sections:
     folder: "."
     notebooks: false
     markdown: false
+    description: "Tired of doing data analysis for all of your coworkers? Give them the tools to browse the data directly themselves!"
     apps:
       - path: "04-streamlit-transfers-simple.py"
         title: "Transfers Browser: simple"

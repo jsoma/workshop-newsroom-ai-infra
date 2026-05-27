@@ -14,7 +14,7 @@ Small local demos for OCR, text-to-speech, semantic PDF search, and Streamlit da
 
 ### 01. OCR
 
-Here is some *sample text*.
+Journalists often deal with scanned texts, but the best tools are locked behind code. How can we help non-technical users try out our favorite libaries without forcing them through installing Python and running notebooks?
 
 #### OCR with Gradio: simple
 
@@ -30,6 +30,8 @@ Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-new
 
 ### 02. Text-to-speech
 
+Newsrooms' C-suites have *loved* auto-generated podcasts recently, but the rest of the publication is often split. How can we let everyone have a hand in demoing the product to show its strengths and weaknesses?
+
 #### Text-to-speech with Gradio: simple
 
 A small Kokoro ONNX text-to-speech demo.
@@ -44,6 +46,8 @@ Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-new
 
 ### 03. PDF search
 
+Semantic search is a useful tool for investigative work, but you don't always want to upload all of your docs into a Google product. Can a home-grown version work just as well?
+
 #### PDF Search: notebook version
 
 A notebook walkthrough that reads local PDFs, embeds each page, and ranks semantic search results.
@@ -57,6 +61,8 @@ Semantic search over local PDFs using sentence-transformer embeddings.
 Try: [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .py](https://jsoma.github.io/workshop-newsroom-ai-infra/03-pdf-search/03-streamlit-pdf-search.py) | [Read code](https://jsoma.github.io/workshop-newsroom-ai-infra/03-pdf-search/03-streamlit-pdf-search.html)
 
 ### 04. Transfer data
+
+Tired of doing data analysis for all of your coworkers? Give them the tools to browse the data directly themselves!
 
 #### Transfers Browser: simple
 
