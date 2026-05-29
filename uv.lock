@@ -30,61 +30,6 @@ wheels = [
 ]
 
 [[package]]
-name = "ai-experimentation"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "accelerate" },
-    { name = "gradio" },
-    { name = "ipykernel" },
-    { name = "ipywidgets" },
-    { name = "kokoro-onnx" },
-    { name = "numpy" },
-    { name = "onnxruntime" },
-    { name = "opencv-python-headless" },
-    { name = "pandas" },
-    { name = "pydantic-ai-slim", extra = ["openrouter"] },
-    { name = "pymupdf" },
-    { name = "python-dotenv" },
-    { name = "rapidocr" },
-    { name = "requests" },
-    { name = "sentence-transformers" },
-    { name = "sentencepiece" },
-    { name = "soundfile" },
-    { name = "streamlit" },
-    { name = "torch" },
-    { name = "torchvision" },
-    { name = "tqdm" },
-    { name = "transformers" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "accelerate", specifier = ">=1.13.0" },
-    { name = "gradio", specifier = ">=6.8.0" },
-    { name = "ipykernel", specifier = ">=7.1.0" },
-    { name = "ipywidgets", specifier = ">=8.1.8" },
-    { name = "kokoro-onnx", specifier = ">=0.5.0" },
-    { name = "numpy", specifier = ">=2.4.5" },
-    { name = "onnxruntime", specifier = ">=1.26.0" },
-    { name = "opencv-python-headless", specifier = ">=4.13.0.92" },
-    { name = "pandas", specifier = ">=3.0.3" },
-    { name = "pydantic-ai-slim", extras = ["openrouter"], specifier = ">=1.97.0" },
-    { name = "pymupdf", specifier = ">=1.27.2" },
-    { name = "python-dotenv", specifier = ">=1.2.2" },
-    { name = "rapidocr", specifier = ">=3.8.1" },
-    { name = "requests", specifier = ">=2.34.2" },
-    { name = "sentence-transformers", specifier = ">=5.5.0" },
-    { name = "sentencepiece", specifier = ">=0.2.1" },
-    { name = "soundfile", specifier = ">=0.13.1" },
-    { name = "streamlit", specifier = ">=1.57.0" },
-    { name = "torch", specifier = ">=2.6.0" },
-    { name = "torchvision", specifier = ">=0.27.0" },
-    { name = "tqdm", specifier = ">=4.67.3" },
-    { name = "transformers", specifier = ">=5.2.0" },
-]
-
-[[package]]
 name = "altair"
 version = "6.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1140,6 +1085,63 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/6a/51/63fe664f3908c97be9d2e4f1158eb633317598cfa6e1fc14af5383f17512/networkx-3.6.1.tar.gz", hash = "sha256:26b7c357accc0c8cde558ad486283728b65b6a95d85ee1cd66bafab4c8168509", size = 2517025, upload-time = "2025-12-08T17:02:39.908Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/9e/c9/b2622292ea83fbb4ec318f5b9ab867d0a28ab43c5717bb85b0a5f6b3b0a4/networkx-3.6.1-py3-none-any.whl", hash = "sha256:d47fbf302e7d9cbbb9e2555a0d267983d2aa476bac30e90dfbe5669bd57f3762", size = 2068504, upload-time = "2025-12-08T17:02:38.159Z" },
+]
+
+[[package]]
+name = "newsroom-infrastructure-for-ai-experimentation"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "accelerate" },
+    { name = "gradio" },
+    { name = "ipykernel" },
+    { name = "ipywidgets" },
+    { name = "kokoro-onnx" },
+    { name = "numpy" },
+    { name = "onnxruntime" },
+    { name = "opencv-python-headless" },
+    { name = "pandas" },
+    { name = "pillow" },
+    { name = "pydantic-ai-slim", extra = ["openrouter"] },
+    { name = "pymupdf" },
+    { name = "python-dotenv" },
+    { name = "rapidocr" },
+    { name = "requests" },
+    { name = "sentence-transformers" },
+    { name = "sentencepiece" },
+    { name = "soundfile" },
+    { name = "streamlit" },
+    { name = "torch" },
+    { name = "torchvision" },
+    { name = "tqdm" },
+    { name = "transformers" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "accelerate" },
+    { name = "gradio" },
+    { name = "ipykernel" },
+    { name = "ipywidgets" },
+    { name = "kokoro-onnx" },
+    { name = "numpy" },
+    { name = "onnxruntime" },
+    { name = "opencv-python-headless" },
+    { name = "pandas" },
+    { name = "pillow" },
+    { name = "pydantic-ai-slim", extras = ["openrouter"] },
+    { name = "pymupdf" },
+    { name = "python-dotenv" },
+    { name = "rapidocr" },
+    { name = "requests" },
+    { name = "sentence-transformers" },
+    { name = "sentencepiece" },
+    { name = "soundfile" },
+    { name = "streamlit" },
+    { name = "torch" },
+    { name = "torchvision" },
+    { name = "tqdm" },
+    { name = "transformers", specifier = ">=5.3.0" },
 ]
 
 [[package]]

@@ -30,7 +30,7 @@ sections:
           - onnxruntime
       "01-gradio-ocr-fancy.ipynb":
         title: "OCR with Gradio: fancy"
-        description: "A richer OCR interface comparing RapidOCR with Nanonets OCR2."
+        description: "A richer OCR interface comparing RapidOCR with GLM-OCR."
         order: 2
         install:
           upgrade: false
@@ -44,7 +44,7 @@ sections:
             - pillow
             - torch
             - torchvision
-            - "transformers>=4.57.0"
+            - "transformers>=5.3.0"
             - accelerate
             - sentencepiece
 
@@ -105,7 +105,6 @@ sections:
         port: 8501
   - title: "04. Transfer data"
     folder: "."
-    notebooks: false
     markdown: false
     description: "Tired of doing data analysis for all of your coworkers? Give them the tools to browse the data directly themselves!"
     notebooks:

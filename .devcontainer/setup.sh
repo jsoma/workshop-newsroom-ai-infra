@@ -15,11 +15,13 @@ if [ ! -f pyproject.toml ]; then
   exit 1
 fi
 
-if [ -f uv.lock ] && uv lock --check >/dev/null 2>&1; then
-  uv sync --locked
-else
-  uv sync
+if [ ! -f uv.lock ]; then
+  echo "uv.lock is missing; re-run workshop-publish locally and commit the generated lockfile."
+  exit 1
 fi
+
+uv lock --check
+uv sync --locked
 
 uv run python -m ipykernel install --user --name newsroom-infrastructure-for-ai-experimentation --display-name 'Newsroom Infrastructure for AI Experimentation'
 
