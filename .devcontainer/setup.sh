@@ -44,8 +44,8 @@ if [ ! -f uv.lock ]; then
   exit 1
 fi
 
-uv lock --check
-uv sync --locked
+uv lock --check --no-config
+uv sync --locked --no-config
 
 uv run python -m ipykernel install --user --name newsroom-infrastructure-for-ai-experimentation --display-name 'Newsroom Infrastructure for AI Experimentation'
 
