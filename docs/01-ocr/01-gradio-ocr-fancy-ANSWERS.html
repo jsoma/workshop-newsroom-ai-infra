@@ -95,13 +95,19 @@
         
         <li>
             
-            <a href="../04-transfer-data/04-streamlit-transfers-simple.html">Transfers Browser: simple</a>
+            <a href="../04-transfer-data/04-transfers-ANSWERS.html">Analyzing Real Estate transfers the normal way</a>
             
         </li>
         
         <li>
             
-            <a href="../04-transfer-data/04-streamlit-transfers-fancy.html">Transfers Browser: fancy</a>
+            <a href="../04-transfer-data/04-streamlit-transfers-simple.html">Real Estate Transfers Browser: simple version</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../04-transfer-data/04-streamlit-transfers-fancy.html">Real Estate Transfers Browser: fancy version</a>
             
         </li>
         
@@ -137,13 +143,13 @@
 </div>
 
 
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=573a2619">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=c75360bd">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Install required packages</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">gradio</span> <span class="n">ipywidgets</span> <span class="n">pymupdf</span> <span class="n">rapidocr</span> <span class="n">opencv</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">headless</span> <span class="n">onnxruntime</span> <span class="n">torch</span> <span class="n">transformers</span> <span class="n">accelerate</span> <span class="n">sentencepiece</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">gradio</span> <span class="n">ipywidgets</span> <span class="n">pymupdf</span> <span class="n">rapidocr</span> <span class="n">opencv</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">headless</span> <span class="n">onnxruntime</span> <span class="s1">'torch&gt;=2.6.0'</span> <span class="s1">'torchvision&gt;=0.27.0'</span> <span class="s1">'transformers&gt;=5.2.0'</span> <span class="n">accelerate</span> <span class="n">sentencepiece</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'✓ Packages installed!'</span><span class="p">)</span>
 </pre></div>
@@ -154,13 +160,16 @@
 <div class="cell border-box-sizing text_cell rendered" id="cell-id=e2eeed6d"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Gradio-demo:-OCR-(fancy)">Gradio demo: OCR (fancy)<a class="anchor-link" href="#Gradio-demo:-OCR-(fancy)">¶</a></h1>
+<h1 id="Gradio-demo:-OCR-(fancy)">Gradio demo: OCR (fancy)<a class="anchor-link" href="#Gradio-demo:-OCR-(fancy)">¶</a></h1><blockquote>
+<p>Be sure to select <strong>Runtime &gt; Change runtime type</strong> and pick anything other than CPU!</p>
+</blockquote>
+<p>We're trying out another model one of the <strong>OCR leaderboards</strong>: <a href="https://huggingface.co/spaces/echo840/ocrbench-leaderboard">OCRBench Leaderboard</a> / <a href="https://www.ocrarena.ai/leaderboard">OCR Arena</a>.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered" id="cell-id=3c053613">
 <div class="input">
-<div class="prompt input_prompt">In [1]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
@@ -214,6 +223,8 @@
     <span class="k">with</span> <span class="n">fitz</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pdf_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdf</span><span class="p">:</span>
         <span class="n">page_count</span> <span class="o">=</span> <span class="n">pdf</span><span class="o">.</span><span class="n">page_count</span>
 
+    <span class="c1"># Limit to 2 pages</span>
+    <span class="n">page_count</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">page_count</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> 
     <span class="k">return</span> <span class="n">preview_page</span><span class="p">(</span><span class="n">pdf_path</span><span class="p">,</span> <span class="n">start_page</span><span class="p">),</span> <span class="n">gr</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">page_count</span><span class="p">)</span>
 
 
@@ -317,77 +328,7 @@
     <span class="n">pdf</span><span class="o">.</span><span class="n">change</span><span class="p">(</span><span class="n">load_pdf</span><span class="p">,</span> <span class="p">[</span><span class="n">pdf</span><span class="p">,</span> <span class="n">start_page</span><span class="p">],</span> <span class="p">[</span><span class="n">preview</span><span class="p">,</span> <span class="n">end_page</span><span class="p">])</span>
     <span class="n">start_page</span><span class="o">.</span><span class="n">change</span><span class="p">(</span><span class="n">preview_page</span><span class="p">,</span> <span class="p">[</span><span class="n">pdf</span><span class="p">,</span> <span class="n">start_page</span><span class="p">],</span> <span class="n">preview</span><span class="p">)</span>
     <span class="n">button</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="n">ocr_pdf</span><span class="p">,</span> <span class="p">[</span><span class="n">pdf</span><span class="p">,</span> <span class="n">start_page</span><span class="p">,</span> <span class="n">end_page</span><span class="p">,</span> <span class="n">engine</span><span class="p">],</span> <span class="n">output</span><span class="p">)</span>
-
-
-<span class="c1"># Does not need a guard</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-fg">[INFO] 2026-05-24 23:04:34,661 [RapidOCR] base.py:22: Using engine_name: onnxruntime</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-fg">[INFO] 2026-05-24 23:04:34,720 [RapidOCR] download_file.py:60: File exists and is valid: /Users/soma/Library/CloudStorage/Dropbox/Soma/Curriculum/2026-dataharvest/ai-experimentation/.venv/lib/python3.11/site-packages/rapidocr/models/ch_PP-OCRv4_det_mobile.onnx</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-fg">[INFO] 2026-05-24 23:04:34,721 [RapidOCR] main.py:57: Using /Users/soma/Library/CloudStorage/Dropbox/Soma/Curriculum/2026-dataharvest/ai-experimentation/.venv/lib/python3.11/site-packages/rapidocr/models/ch_PP-OCRv4_det_mobile.onnx</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-fg">[INFO] 2026-05-24 23:04:34,779 [RapidOCR] base.py:22: Using engine_name: onnxruntime</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-fg">[INFO] 2026-05-24 23:04:34,781 [RapidOCR] download_file.py:60: File exists and is valid: /Users/soma/Library/CloudStorage/Dropbox/Soma/Curriculum/2026-dataharvest/ai-experimentation/.venv/lib/python3.11/site-packages/rapidocr/models/ch_ppocr_mobile_v2.0_cls_mobile.onnx</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-fg">[INFO] 2026-05-24 23:04:34,781 [RapidOCR] main.py:57: Using /Users/soma/Library/CloudStorage/Dropbox/Soma/Curriculum/2026-dataharvest/ai-experimentation/.venv/lib/python3.11/site-packages/rapidocr/models/ch_ppocr_mobile_v2.0_cls_mobile.onnx</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-fg">[INFO] 2026-05-24 23:04:34,803 [RapidOCR] base.py:22: Using engine_name: onnxruntime</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-fg">[INFO] 2026-05-24 23:04:34,813 [RapidOCR] download_file.py:60: File exists and is valid: /Users/soma/Library/CloudStorage/Dropbox/Soma/Curriculum/2026-dataharvest/ai-experimentation/.venv/lib/python3.11/site-packages/rapidocr/models/ch_PP-OCRv4_rec_mobile.onnx</span>
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre><span class="ansi-green-fg">[INFO] 2026-05-24 23:04:34,813 [RapidOCR] main.py:57: Using /Users/soma/Library/CloudStorage/Dropbox/Soma/Curriculum/2026-dataharvest/ai-experimentation/.venv/lib/python3.11/site-packages/rapidocr/models/ch_PP-OCRv4_rec_mobile.onnx</span>
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -397,7 +338,10 @@
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">demo</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'GRADIO_DEBUG'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'1'</span>
+
+<span class="n">demo</span><span class="o">.</span><span class="n">launch</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

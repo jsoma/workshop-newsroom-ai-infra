@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analyzing Real Estate transfers the normal way</title>
+    
+    <meta name="description" content="A notebook that opens up a CSV and does a little light analysis.">
+    <meta name="author" content="Jonathan Soma">
+    <link rel="canonical" href="https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-transfers-ANSWERS.html">
+    
+    
+    
+    <meta property="og:title" content="Analyzing Real Estate transfers the normal way">
+    <meta property="og:description" content="A notebook that opens up a CSV and does a little light analysis.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-transfers-ANSWERS.html">
+    <meta property="og:site_name" content="Newsroom Infrastructure for AI Experimentation">
+    <meta property="og:image" content="https://jsoma.github.io/workshop-newsroom-ai-infra/ai-experimentation-social.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="675">
+    <meta property="og:image:alt" content="Analyzing Real Estate transfers the normal way preview">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Analyzing Real Estate transfers the normal way">
+    <meta name="twitter:description" content="A notebook that opens up a CSV and does a little light analysis.">
+    <meta name="twitter:image" content="https://jsoma.github.io/workshop-newsroom-ai-infra/ai-experimentation-social.png">
+    <meta name="twitter:image:alt" content="Analyzing Real Estate transfers the normal way preview">
+    <meta name="twitter:creator" content="@dangerscarf">
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/base.css">
+    
+<link rel="stylesheet" href="../static/read.css">
+
+    <script>
+    // Set theme before paint to avoid FOUC
+    (function(){var s=localStorage.getItem('theme');var t=s||(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.className='theme-'+(t==='dark'?'noir':'broadsheet');})();
+    </script>
+</head>
+<body>
+
+<div class="theme-switcher">
+    <button class="active" onclick="setTheme('dark', this)">Dark</button>
+    <button onclick="setTheme('light', this)">Light</button>
+</div>
+
+<div class="page">
+    
+
+<nav class="nb-topnav">
+    <a href="../index.html" class="nb-topnav-home">&larr; Home</a>
+    
+    <div class="nb-topnav-title">Newsroom Infrastructure for AI Experimentation</div>
+    
+    <ol class="nb-topnav-list">
+        
+        <li>
+            
+            <a href="../01-ocr/01-gradio-ocr-simple-ANSWERS.html">OCR with Gradio: simple</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../01-ocr/01-gradio-ocr-fancy-ANSWERS.html">OCR with Gradio: fancy</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../02-text-to-speech/02-gradio-tts-simple-ANSWERS.html">Text-to-speech with Gradio: simple</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../02-text-to-speech/02-gradio-tts-fancy-ANSWERS.html">Text-to-speech with Gradio: fancy</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.html">PDF Search: notebook version</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../03-pdf-search/03-streamlit-pdf-search.html">PDF Search: Streamlit app</a>
+            
+        </li>
+        
+        <li class="is-current">
+            
+            <span class="nb-topnav-current">Analyzing Real Estate transfers the normal way</span>
+            
+        </li>
+        
+        <li>
+            
+            <a href="04-streamlit-transfers-simple.html">Real Estate Transfers Browser: simple version</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="04-streamlit-transfers-fancy.html">Real Estate Transfers Browser: fancy version</a>
+            
+        </li>
+        
+        <li>
+            
+            <a href="../06-structured-outputs/06-openrouter-pydantic-ANSWERS.html">OpenRouter + Pydantic AI</a>
+            
+        </li>
+        
+    </ol>
+</nav>
+
+
+
+<div class="nb-actions">
+    
+    <details class="nb-try-menu">
+        <summary class="nb-action-btn nb-action-colab">Try it</summary>
+        <div class="nb-try-options">
+            
+            <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/04-transfer-data/04-transfers-ANSWERS.ipynb" target="_blank" rel="noopener">Open in Colab</a>
+            
+            <a href="https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/04-transfer-data/04-transfers.ipynb" target="_blank" rel="noopener">Colab (code-along)</a>
+            
+            <a href="https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main" target="_blank" rel="noopener">Codespaces</a>
+            
+        </div>
+    </details>
+    
+    
+    <a href="04-transfers-ANSWERS.ipynb" class="nb-action-btn nb-action-download" download>Download notebook</a>
+    
+</div>
+
+
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=88359eb6">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Install required packages</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">pandas</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'✓ Packages installed!'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=7b85ecbc"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Analyzing-real-estate-transfers">Analyzing real estate transfers<a class="anchor-link" href="#Analyzing-real-estate-transfers">¶</a></h1><p>We aren't doing anything fancy here! But it's just some data analysis we don't want to have to do for other people.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=6e214761">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_columns</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/transfers.csv"</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/var/folders/25/h3prywj14qb0mlkl2s8bxq5m0000gn/T/ipykernel_81007/422507928.py:4: DtypeWarning: Columns (0: instrument_prefix) have mixed types. Specify dtype option on import or set low_memory=False.
+  df = pd.read_csv("data/transfers.csv")
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[2]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>source_document_id</th>
+<th>source_title</th>
+<th>source_url</th>
+<th>source_period_type</th>
+<th>source_year</th>
+<th>source_start_month</th>
+<th>source_end_month</th>
+<th>source_schema</th>
+<th>transfer_date</th>
+<th>transfer_date_parsed</th>
+<th>transfer_year</th>
+<th>transfer_month</th>
+<th>parcel_id</th>
+<th>grantor</th>
+<th>grantee</th>
+<th>owner</th>
+<th>owner_or_c_o</th>
+<th>consideration</th>
+<th>selling_price</th>
+<th>transfer_code</th>
+<th>transfer_description</th>
+<th>deed_type</th>
+<th>sale_type</th>
+<th>physical_address</th>
+<th>city_state</th>
+<th>zip</th>
+<th>instrument_id</th>
+<th>acreage</th>
+<th>acreage_units</th>
+<th>assessment_land</th>
+<th>assessment_building</th>
+<th>assessment_improvements</th>
+<th>assessment_total</th>
+<th>legal_description_1</th>
+<th>legal_description_2</th>
+<th>parcel_part_1</th>
+<th>parcel_part_2</th>
+<th>parcel_part_3</th>
+<th>parcel_part_4</th>
+<th>parcel_part_5</th>
+<th>parcel_part_6</th>
+<th>address_number</th>
+<th>address_unit</th>
+<th>street_name</th>
+<th>street_suffix</th>
+<th>address_extra</th>
+<th>instrument_prefix</th>
+<th>instrument_number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>22E1-67-</td>
+<td>Otis A Bristow III or Wendy D Bristow</td>
+<td>Otis A Bristow III</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0</td>
+<td>NaN</td>
+<td>Q</td>
+<td>Quitclaim</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>810 Kilarney DR Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-97</td>
+<td>0.00</td>
+<td>Acres</td>
+<td>75000</td>
+<td>62400</td>
+<td>11600</td>
+<td>149000</td>
+<td>Chancellor Green</td>
+<td>Lot 67 Sec 1</td>
+<td>22</td>
+<td>E</td>
+<td>1</td>
+<td>-</td>
+<td>67</td>
+<td>-</td>
+<td>810</td>
+<td>NaN</td>
+<td>Kilarney</td>
+<td>DR</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>97</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>22T20-31-</td>
+<td>Marjorie G Schrader</td>
+<td>Jannie M Hillian</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>219900</td>
+<td>NaN</td>
+<td>S</td>
+<td>Sale</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>12114 Meadow Branch WAY Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-65</td>
+<td>3740.00</td>
+<td>Sq.Ft</td>
+<td>70000</td>
+<td>125900</td>
+<td>10500</td>
+<td>206400</td>
+<td>Oakview (Salem Fields)</td>
+<td>Lot 31 Sec 3</td>
+<td>22</td>
+<td>T</td>
+<td>20</td>
+<td>-</td>
+<td>31</td>
+<td>-</td>
+<td>12114</td>
+<td>NaN</td>
+<td>Meadow Branch</td>
+<td>WAY</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>65</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>23C2E1-</td>
+<td>Joan Coleman &amp; Theresa Coleman Trs The Coleman...</td>
+<td>Christopher M Alward or Michael G Larson</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>142000</td>
+<td>NaN</td>
+<td>M</td>
+<td>Multiple Transfer</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>5704 Ross DR Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-26</td>
+<td>0.21</td>
+<td>Acres</td>
+<td>55000</td>
+<td>38700</td>
+<td>10100</td>
+<td>103800</td>
+<td>Thomas Ross</td>
+<td>Lot 1 Block E</td>
+<td>23</td>
+<td>C</td>
+<td>2</td>
+<td>E</td>
+<td>1</td>
+<td>-</td>
+<td>5704</td>
+<td>NaN</td>
+<td>Ross</td>
+<td>DR</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>26</td>
+</tr>
+<tr>
+<th>3</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>23C2E2-</td>
+<td>Joan Coleman &amp; Theresa Coleman Trs The Coleman...</td>
+<td>Christopher M Alward or Michael G Larson</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>142000</td>
+<td>NaN</td>
+<td>M</td>
+<td>Multiple Transfer</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>5706 Ross DR Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-26</td>
+<td>0.21</td>
+<td>Acres</td>
+<td>27500</td>
+<td>0</td>
+<td>0</td>
+<td>27500</td>
+<td>Thomas Ross</td>
+<td>Lot 2 Block E</td>
+<td>23</td>
+<td>C</td>
+<td>2</td>
+<td>E</td>
+<td>2</td>
+<td>-</td>
+<td>5706</td>
+<td>NaN</td>
+<td>Ross</td>
+<td>DR</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>26</td>
+</tr>
+<tr>
+<th>4</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>23H7-61-</td>
+<td>Walter L Brown or Nedra G Brown</td>
+<td>Paula J Kelly</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209000</td>
+<td>NaN</td>
+<td>S</td>
+<td>Sale</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>11517 Sturbridge CT Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-68</td>
+<td>5009.00</td>
+<td>Sq.Ft</td>
+<td>85000</td>
+<td>102900</td>
+<td>10900</td>
+<td>198800</td>
+<td>Summerlake</td>
+<td>Lot 61 Sec 2</td>
+<td>23</td>
+<td>H</td>
+<td>7</td>
+<td>-</td>
+<td>61</td>
+<td>-</td>
+<td>11517</td>
+<td>NaN</td>
+<td>Sturbridge</td>
+<td>CT</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>68</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=669b582b">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'source_year'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2017</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[4]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>source_document_id</th>
+<th>source_title</th>
+<th>source_url</th>
+<th>source_period_type</th>
+<th>source_year</th>
+<th>source_start_month</th>
+<th>source_end_month</th>
+<th>source_schema</th>
+<th>transfer_date</th>
+<th>transfer_date_parsed</th>
+<th>transfer_year</th>
+<th>transfer_month</th>
+<th>parcel_id</th>
+<th>grantor</th>
+<th>grantee</th>
+<th>owner</th>
+<th>owner_or_c_o</th>
+<th>consideration</th>
+<th>selling_price</th>
+<th>transfer_code</th>
+<th>transfer_description</th>
+<th>deed_type</th>
+<th>sale_type</th>
+<th>physical_address</th>
+<th>city_state</th>
+<th>zip</th>
+<th>instrument_id</th>
+<th>acreage</th>
+<th>acreage_units</th>
+<th>assessment_land</th>
+<th>assessment_building</th>
+<th>assessment_improvements</th>
+<th>assessment_total</th>
+<th>legal_description_1</th>
+<th>legal_description_2</th>
+<th>parcel_part_1</th>
+<th>parcel_part_2</th>
+<th>parcel_part_3</th>
+<th>parcel_part_4</th>
+<th>parcel_part_5</th>
+<th>parcel_part_6</th>
+<th>address_number</th>
+<th>address_unit</th>
+<th>street_name</th>
+<th>street_suffix</th>
+<th>address_extra</th>
+<th>instrument_prefix</th>
+<th>instrument_number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>22E1-67-</td>
+<td>Otis A Bristow III or Wendy D Bristow</td>
+<td>Otis A Bristow III</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0</td>
+<td>NaN</td>
+<td>Q</td>
+<td>Quitclaim</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>810 Kilarney DR Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-97</td>
+<td>0.00</td>
+<td>Acres</td>
+<td>75000</td>
+<td>62400</td>
+<td>11600</td>
+<td>149000</td>
+<td>Chancellor Green</td>
+<td>Lot 67 Sec 1</td>
+<td>22</td>
+<td>E</td>
+<td>1</td>
+<td>-</td>
+<td>67</td>
+<td>-</td>
+<td>810</td>
+<td>NaN</td>
+<td>Kilarney</td>
+<td>DR</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>97</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>22T20-31-</td>
+<td>Marjorie G Schrader</td>
+<td>Jannie M Hillian</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>219900</td>
+<td>NaN</td>
+<td>S</td>
+<td>Sale</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>12114 Meadow Branch WAY Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-65</td>
+<td>3740.00</td>
+<td>Sq.Ft</td>
+<td>70000</td>
+<td>125900</td>
+<td>10500</td>
+<td>206400</td>
+<td>Oakview (Salem Fields)</td>
+<td>Lot 31 Sec 3</td>
+<td>22</td>
+<td>T</td>
+<td>20</td>
+<td>-</td>
+<td>31</td>
+<td>-</td>
+<td>12114</td>
+<td>NaN</td>
+<td>Meadow Branch</td>
+<td>WAY</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>65</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>23C2E1-</td>
+<td>Joan Coleman &amp; Theresa Coleman Trs The Coleman...</td>
+<td>Christopher M Alward or Michael G Larson</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>142000</td>
+<td>NaN</td>
+<td>M</td>
+<td>Multiple Transfer</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>5704 Ross DR Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-26</td>
+<td>0.21</td>
+<td>Acres</td>
+<td>55000</td>
+<td>38700</td>
+<td>10100</td>
+<td>103800</td>
+<td>Thomas Ross</td>
+<td>Lot 1 Block E</td>
+<td>23</td>
+<td>C</td>
+<td>2</td>
+<td>E</td>
+<td>1</td>
+<td>-</td>
+<td>5704</td>
+<td>NaN</td>
+<td>Ross</td>
+<td>DR</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>26</td>
+</tr>
+<tr>
+<th>3</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>23C2E2-</td>
+<td>Joan Coleman &amp; Theresa Coleman Trs The Coleman...</td>
+<td>Christopher M Alward or Michael G Larson</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>142000</td>
+<td>NaN</td>
+<td>M</td>
+<td>Multiple Transfer</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>5706 Ross DR Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-26</td>
+<td>0.21</td>
+<td>Acres</td>
+<td>27500</td>
+<td>0</td>
+<td>0</td>
+<td>27500</td>
+<td>Thomas Ross</td>
+<td>Lot 2 Block E</td>
+<td>23</td>
+<td>C</td>
+<td>2</td>
+<td>E</td>
+<td>2</td>
+<td>-</td>
+<td>5706</td>
+<td>NaN</td>
+<td>Ross</td>
+<td>DR</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>26</td>
+</tr>
+<tr>
+<th>4</th>
+<td>2446</td>
+<td>2017 All Transfers XLSX</td>
+<td>https://www.spotsylvania.va.us/DocumentCenter/...</td>
+<td>aggregate</td>
+<td>2017</td>
+<td>1</td>
+<td>12</td>
+<td>grantor_grantee</td>
+<td>01/03/17</td>
+<td>2017-01-03</td>
+<td>2017</td>
+<td>1</td>
+<td>23H7-61-</td>
+<td>Walter L Brown or Nedra G Brown</td>
+<td>Paula J Kelly</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>209000</td>
+<td>NaN</td>
+<td>S</td>
+<td>Sale</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>11517 Sturbridge CT Fredericksburg, VA 22407</td>
+<td>Fredericksburg, VA</td>
+<td>22407.0</td>
+<td>0000-68</td>
+<td>5009.00</td>
+<td>Sq.Ft</td>
+<td>85000</td>
+<td>102900</td>
+<td>10900</td>
+<td>198800</td>
+<td>Summerlake</td>
+<td>Lot 61 Sec 2</td>
+<td>23</td>
+<td>H</td>
+<td>7</td>
+<td>-</td>
+<td>61</td>
+<td>-</td>
+<td>11517</td>
+<td>NaN</td>
+<td>Sturbridge</td>
+<td>CT</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>68</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=7b43a7e7">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'assessment_total'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[5]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>np.float64(176300.0)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<nav class="nb-nav">
+    
+    <a href="../03-pdf-search/03-streamlit-pdf-search.html" class="nb-nav-prev">&larr; PDF Search: Streamlit app</a>
+    
+    
+    <a href="04-streamlit-transfers-simple.html" class="nb-nav-next">Real Estate Transfers Browser: simple version &rarr;</a>
+    
+</nav>
+
+
+
+
+</div>
+
+<script>
+function setTheme(theme, btn) {
+    var darkNames = {'dark':1, 'noir':1};
+    var cls = darkNames[theme] ? 'noir' : 'broadsheet';
+    document.documentElement.className = 'theme-' + cls;
+    document.querySelectorAll('.theme-switcher button').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    localStorage.setItem('theme', darkNames[theme] ? 'dark' : 'light');
+}
+
+// Sync button active state (theme already set by head script)
+(function() {
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    var label = theme === 'dark' ? 'Dark' : 'Light';
+    document.querySelectorAll('.theme-switcher button').forEach(function(b) {
+        b.classList.toggle('active', b.textContent.trim() === label);
+    });
+})();
+
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+    if (!localStorage.getItem('theme')) {
+        var cls = e.matches ? 'broadsheet' : 'noir';
+        document.documentElement.className = 'theme-' + cls;
+        var label = e.matches ? 'Light' : 'Dark';
+        document.querySelectorAll('.theme-switcher button').forEach(function(b) {
+            b.classList.toggle('active', b.textContent.trim() === label);
+        });
+    }
+});
+
+function loadSlides(slideId, slideUrl) {
+    var root = document.getElementById(slideId);
+    if (!root) return;
+    var preview = root.querySelector('.slide-preview');
+    var container = root.querySelector('.slide-container');
+    var frame = container && container.querySelector('iframe, embed');
+    if (frame && !frame.getAttribute('src')) {
+        frame.setAttribute('src', slideUrl);
+    }
+    if (preview) preview.style.display = 'none';
+    if (container) container.style.display = 'block';
+}
+
+document.addEventListener('click', function(event) {
+    document.querySelectorAll('details.try-menu[open], details.nb-try-menu[open]').forEach(function(menu) {
+        if (!menu.contains(event.target)) {
+            menu.removeAttribute('open');
+        }
+    });
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        document.querySelectorAll('details.try-menu[open], details.nb-try-menu[open]').forEach(function(menu) {
+            menu.removeAttribute('open');
+        });
+    }
+});
+</script>
+
+<script>
+// Detect blocked newsletter iframes and show a fallback link
+(function() {
+    function replaceWithLink(iframe, src) {
+        var link = document.createElement('a');
+        link.href = src;
+        link.className = 'newsletter-fallback-btn';
+        link.innerHTML = 'Subscribe to the newsletter &rarr;';
+        iframe.replaceWith(link);
+        // Also hide the beehiiv script tag if present
+        var scripts = document.querySelectorAll('.newsletter-signup script');
+        scripts.forEach(function(s) { s.remove(); });
+    }
+    document.querySelectorAll('.newsletter-signup iframe').forEach(function(iframe) {
+        var src = iframe.src;
+        if (!src) return;
+        // Check iframe dimensions after it settles — blocked iframes
+        // typically render as 0-height or very small
+        var timer = setTimeout(function() {
+            var h = iframe.offsetHeight || iframe.getBoundingClientRect().height;
+            if (h < 20) {
+                replaceWithLink(iframe, src);
+            }
+        }, 3000);
+    });
+})();
+</script>
+</body>
+</html>

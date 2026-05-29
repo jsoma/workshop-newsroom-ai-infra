@@ -50,7 +50,7 @@ Semantic search is a useful tool for investigative work, but you don't always wa
 
 #### PDF Search: notebook version
 
-A notebook walkthrough that reads local PDFs, embeds each page, and ranks semantic search results.
+A notebook walkthrough that reads local PDFs, embeds each page, and ranks semantic search results. This will only work on codespaces!
 
 Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.ipynb) | [Colab (code-along)](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/03-pdf-search/03-streamlit-pdf-search-manual.ipynb) | [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/03-pdf-search/03-streamlit-pdf-search-manual-ANSWERS.html)
 
@@ -64,13 +64,21 @@ Try: [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=ma
 
 Tired of doing data analysis for all of your coworkers? Give them the tools to browse the data directly themselves!
 
-#### Transfers Browser: simple
+[Download materials](https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-transfer-data-materials.zip)
+
+#### Analyzing Real Estate transfers the normal way
+
+A notebook that opens up a CSV and does a little light analysis.
+
+Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/04-transfer-data/04-transfers-ANSWERS.ipynb) | [Colab (code-along)](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/04-transfer-data/04-transfers.ipynb) | [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-transfers-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-transfers-ANSWERS.html)
+
+#### Real Estate Transfers Browser: simple version
 
 A simple Streamlit browser for local property transfer data.
 
 Try: [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .py](https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-streamlit-transfers-simple.py) | [Read code](https://jsoma.github.io/workshop-newsroom-ai-infra/04-transfer-data/04-streamlit-transfers-simple.html)
 
-#### Transfers Browser: fancy
+#### Real Estate Transfers Browser: fancy version
 
 A fuller Streamlit transfer-data app with charts, filters, and summaries.
 

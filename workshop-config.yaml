@@ -37,8 +37,9 @@ sections:
           - rapidocr
           - opencv-python-headless
           - onnxruntime
-          - torch
-          - transformers
+          - "torch>=2.6.0"
+          - "torchvision>=0.27.0"
+          - "transformers>=5.2.0"
           - accelerate
           - sentencepiece
 
@@ -82,7 +83,7 @@ sections:
     notebooks:
       "03-streamlit-pdf-search-manual.ipynb":
         title: "PDF Search: notebook version"
-        description: "A notebook walkthrough that reads local PDFs, embeds each page, and ranks semantic search results."
+        description: "A notebook walkthrough that reads local PDFs, embeds each page, and ranks semantic search results. This will only work on codespaces!"
         order: 1
         install:
           - ipywidgets
@@ -97,27 +98,35 @@ sections:
         kind: "streamlit"
         command: "uv run streamlit run 03-streamlit-pdf-search.py --server.address 0.0.0.0 --server.port 8501"
         port: 8501
-
   - title: "04. Transfer data"
     folder: "."
     notebooks: false
     markdown: false
     description: "Tired of doing data analysis for all of your coworkers? Give them the tools to browse the data directly themselves!"
+    notebooks:
+      "04-transfers.ipynb":
+        title: "Analyzing Real Estate transfers the normal way"
+        description: "A notebook that opens up a CSV and does a little light analysis."
+        order: 1
+        install:
+          - pandas
     apps:
       - path: "04-streamlit-transfers-simple.py"
-        title: "Transfers Browser: simple"
+        title: "Real Estate Transfers Browser: simple version"
         description: "A simple Streamlit browser for local property transfer data."
-        order: 1
+        order: 2
         kind: "streamlit"
         command: "uv run streamlit run 04-streamlit-transfers-simple.py --server.address 0.0.0.0 --server.port 8502"
         port: 8502
       - path: "04-streamlit-transfers-fancy.py"
-        title: "Transfers Browser: fancy"
+        title: "Real Estate Transfers Browser: fancy version"
         description: "A fuller Streamlit transfer-data app with charts, filters, and summaries."
-        order: 2
+        order: 3
         kind: "streamlit"
         command: "uv run streamlit run 04-streamlit-transfers-fancy.py --server.address 0.0.0.0 --server.port 8503"
         port: 8503
+    downloads:
+      - "data/transfers.csv"
 
   - title: "05. Evaluations"
     folder: "data/evaluations"
