@@ -2,7 +2,7 @@
   "schema_version": 1,
   "tool": "workshop-publisher",
   "tool_version": "0.1.0",
-  "built_at": "2026-05-29T11:16:52+02:00",
+  "built_at": "2026-05-29T11:52:17+02:00",
   "project_root": "/Users/soma/Library/CloudStorage/Dropbox/Soma/Curriculum/2026-dataharvest/ai-experimentation",
   "config_path": "workshop-config.yaml",
   "build_command": [

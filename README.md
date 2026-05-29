@@ -24,7 +24,7 @@ Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-new
 
 #### OCR with Gradio: fancy
 
-A richer OCR interface with preview, page ranges, and engine selection.
+A richer OCR interface comparing RapidOCR with Nanonets OCR2.
 
 Try: [Open in Colab](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-fancy-ANSWERS.ipynb) | [Colab (code-along)](https://colab.research.google.com/github/jsoma/workshop-newsroom-ai-infra/blob/main/docs/01-ocr/01-gradio-ocr-fancy.ipynb) | [Codespaces](https://codespaces.new/jsoma/workshop-newsroom-ai-infra?ref=main) | [Download .ipynb](https://jsoma.github.io/workshop-newsroom-ai-infra/01-ocr/01-gradio-ocr-fancy-ANSWERS.ipynb) | [Read online](https://jsoma.github.io/workshop-newsroom-ai-infra/01-ocr/01-gradio-ocr-fancy-ANSWERS.html)
 

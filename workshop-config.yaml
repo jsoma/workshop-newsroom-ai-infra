@@ -28,20 +28,23 @@ sections:
           - onnxruntime
       "01-gradio-ocr-fancy.ipynb":
         title: "OCR with Gradio: fancy"
-        description: "A richer OCR interface with preview, page ranges, and engine selection."
+        description: "A richer OCR interface comparing RapidOCR with Nanonets OCR2."
         order: 2
         install:
-          - gradio
-          - ipywidgets
-          - pymupdf
-          - rapidocr
-          - opencv-python-headless
-          - onnxruntime
-          - "torch>=2.6.0"
-          - "torchvision>=0.27.0"
-          - "transformers>=5.2.0"
-          - accelerate
-          - sentencepiece
+          upgrade: false
+          packages:
+            - gradio
+            - ipywidgets
+            - pymupdf
+            - rapidocr
+            - opencv-python-headless
+            - onnxruntime
+            - pillow
+            - torch
+            - torchvision
+            - "transformers>=4.57.0"
+            - accelerate
+            - sentencepiece
 
   - title: "02. Text-to-speech"
     folder: "."

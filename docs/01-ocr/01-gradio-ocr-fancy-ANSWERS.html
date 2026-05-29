@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OCR with Gradio: fancy</title>
     
-    <meta name="description" content="A richer OCR interface with preview, page ranges, and engine selection.">
+    <meta name="description" content="A richer OCR interface comparing RapidOCR with Nanonets OCR2.">
     <meta name="author" content="Jonathan Soma">
     <link rel="canonical" href="https://jsoma.github.io/workshop-newsroom-ai-infra/01-ocr/01-gradio-ocr-fancy-ANSWERS.html">
     
     
     
     <meta property="og:title" content="OCR with Gradio: fancy">
-    <meta property="og:description" content="A richer OCR interface with preview, page ranges, and engine selection.">
+    <meta property="og:description" content="A richer OCR interface comparing RapidOCR with Nanonets OCR2.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jsoma.github.io/workshop-newsroom-ai-infra/01-ocr/01-gradio-ocr-fancy-ANSWERS.html">
     <meta property="og:site_name" content="Newsroom Infrastructure for AI Experimentation">
@@ -22,7 +22,7 @@
     <meta property="og:image:alt" content="OCR with Gradio: fancy preview">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="OCR with Gradio: fancy">
-    <meta name="twitter:description" content="A richer OCR interface with preview, page ranges, and engine selection.">
+    <meta name="twitter:description" content="A richer OCR interface comparing RapidOCR with Nanonets OCR2.">
     <meta name="twitter:image" content="https://jsoma.github.io/workshop-newsroom-ai-infra/ai-experimentation-social.png">
     <meta name="twitter:image:alt" content="OCR with Gradio: fancy preview">
     <meta name="twitter:creator" content="@dangerscarf">
@@ -143,13 +143,13 @@
 </div>
 
 
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=c75360bd">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=d8fe72bf">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
 <div class="input_area">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Install required packages</span>
-<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">gradio</span> <span class="n">ipywidgets</span> <span class="n">pymupdf</span> <span class="n">rapidocr</span> <span class="n">opencv</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">headless</span> <span class="n">onnxruntime</span> <span class="s1">'torch&gt;=2.6.0'</span> <span class="s1">'torchvision&gt;=0.27.0'</span> <span class="s1">'transformers&gt;=5.2.0'</span> <span class="n">accelerate</span> <span class="n">sentencepiece</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">gradio</span> <span class="n">ipywidgets</span> <span class="n">pymupdf</span> <span class="n">rapidocr</span> <span class="n">opencv</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">headless</span> <span class="n">onnxruntime</span> <span class="n">pillow</span> <span class="n">torch</span> <span class="n">torchvision</span> <span class="s1">'transformers&gt;=4.57.0'</span> <span class="n">accelerate</span> <span class="n">sentencepiece</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">'✓ Packages installed!'</span><span class="p">)</span>
 </pre></div>
@@ -163,7 +163,7 @@
 <h1 id="Gradio-demo:-OCR-(fancy)">Gradio demo: OCR (fancy)<a class="anchor-link" href="#Gradio-demo:-OCR-(fancy)">¶</a></h1><blockquote>
 <p>Be sure to select <strong>Runtime &gt; Change runtime type</strong> and pick anything other than CPU!</p>
 </blockquote>
-<p>We're trying out another model one of the <strong>OCR leaderboards</strong>: <a href="https://huggingface.co/spaces/echo840/ocrbench-leaderboard">OCRBench Leaderboard</a> / <a href="https://www.ocrarena.ai/leaderboard">OCR Arena</a>.</p>
+<p>We're comparing a fast traditional OCR engine with a small vision-language OCR model: <a href="https://github.com/RapidAI/RapidOCR">RapidOCR</a> and <a href="https://huggingface.co/nanonets/Nanonets-OCR2-1.5B-exp">Nanonets-OCR2-1.5B-exp</a>.</p>
 </div>
 </div>
 </div>
@@ -182,6 +182,9 @@
 
 
 <span class="n">DPI</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">NANONETS_MODEL_ID</span> <span class="o">=</span> <span class="s2">"nanonets/Nanonets-OCR2-1.5B-exp"</span>
+<span class="n">NANONETS_MAX_NEW_TOKENS</span> <span class="o">=</span> <span class="mi">4096</span>
+<span class="n">NANONETS_PROMPT</span> <span class="o">=</span> <span class="s2">"""Extract the text from the above document as if you were reading it naturally. Return tables in HTML format. Return equations in LaTeX representation. Use markdown where it helps preserve structure. Prefer using ☐ and ☑ for checkboxes."""</span>
 <span class="n">rapidocr</span> <span class="o">=</span> <span class="n">RapidOCR</span><span class="p">()</span>
 
 
@@ -239,44 +242,73 @@
 
 
 <span class="nd">@lru_cache</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">glm_ocr_model</span><span class="p">():</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoProcessor</span><span class="p">,</span> <span class="n">GlmOcrForConditionalGeneration</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">nanonets_ocr_model</span><span class="p">():</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoModelForImageTextToText</span><span class="p">,</span> <span class="n">AutoProcessor</span>
 
-    <span class="n">model_id</span> <span class="o">=</span> <span class="s2">"zai-org/GLM-OCR"</span>
-    <span class="n">processor</span> <span class="o">=</span> <span class="n">AutoProcessor</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">GlmOcrForConditionalGeneration</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">device_map</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+        <span class="n">torch_dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float16</span>
+        <span class="n">device_map</span> <span class="o">=</span> <span class="s2">"auto"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">torch_dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span>
+        <span class="n">device_map</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">processor</span> <span class="o">=</span> <span class="n">AutoProcessor</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">NANONETS_MODEL_ID</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForImageTextToText</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+        <span class="n">NANONETS_MODEL_ID</span><span class="p">,</span>
+        <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch_dtype</span><span class="p">,</span>
+        <span class="n">device_map</span><span class="o">=</span><span class="n">device_map</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">device_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="s2">"mps"</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="p">,</span> <span class="s2">"mps"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">processor</span><span class="p">,</span> <span class="n">model</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">run_glm_ocr</span><span class="p">(</span><span class="n">image_paths</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_nanonets_ocr</span><span class="p">(</span><span class="n">image_paths</span><span class="p">):</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
 
-    <span class="n">processor</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">glm_ocr_model</span><span class="p">()</span>
+    <span class="n">processor</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">nanonets_ocr_model</span><span class="p">()</span>
     <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">image_path</span> <span class="ow">in</span> <span class="n">image_paths</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">"RGB"</span><span class="p">)</span>
         <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"You are a helpful OCR assistant."</span><span class="p">},</span>
             <span class="p">{</span>
                 <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
                 <span class="s2">"content"</span><span class="p">:</span> <span class="p">[</span>
-                    <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"image"</span><span class="p">,</span> <span class="s2">"url"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">)},</span>
-                    <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="s2">"Text Recognition:"</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"image"</span><span class="p">,</span> <span class="s2">"image"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"file://</span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="n">NANONETS_PROMPT</span><span class="p">},</span>
                 <span class="p">],</span>
             <span class="p">}</span>
         <span class="p">]</span>
-        <span class="n">inputs</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">apply_chat_template</span><span class="p">(</span>
-            <span class="n">messages</span><span class="p">,</span>
-            <span class="n">tokenize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">add_generation_prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">return_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">apply_chat_template</span><span class="p">(</span>
+            <span class="n">messages</span><span class="p">,</span> <span class="n">tokenize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">add_generation_prompt</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="p">[</span><span class="n">prompt</span><span class="p">],</span>
+            <span class="n">images</span><span class="o">=</span><span class="p">[</span><span class="n">image</span><span class="p">],</span>
+            <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">return_tensors</span><span class="o">=</span><span class="s2">"pt"</span><span class="p">,</span>
         <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">():</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">2048</span><span class="p">)</span>
+            <span class="n">output_ids</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">inputs</span><span class="p">,</span>
+                <span class="n">max_new_tokens</span><span class="o">=</span><span class="n">NANONETS_MAX_NEW_TOKENS</span><span class="p">,</span>
+                <span class="n">do_sample</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
 
-        <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">processor</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">generated_ids</span> <span class="o">=</span> <span class="n">output_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">inputs</span><span class="p">[</span><span class="s2">"input_ids"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">:]</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+            <span class="n">generated_ids</span><span class="p">,</span>
+            <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">clean_up_tokenization_spaces</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 
     <span class="k">return</span> <span class="n">texts</span>
 
@@ -289,7 +321,7 @@
         <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s2">"rapidocr"</span><span class="p">:</span>
             <span class="n">page_texts</span> <span class="o">=</span> <span class="n">run_rapidocr</span><span class="p">(</span><span class="n">image_paths</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">page_texts</span> <span class="o">=</span> <span class="n">run_glm_ocr</span><span class="p">(</span><span class="n">image_paths</span><span class="p">)</span>
+            <span class="n">page_texts</span> <span class="o">=</span> <span class="n">run_nanonets_ocr</span><span class="p">(</span><span class="n">image_paths</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">"## Page </span><span class="si">{</span><span class="n">page_number</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span>
@@ -310,7 +342,7 @@
 
             <span class="n">engine</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">Radio</span><span class="p">(</span>
                 <span class="n">label</span><span class="o">=</span><span class="s2">"OCR engine"</span><span class="p">,</span>
-                <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">"rapidocr"</span><span class="p">,</span> <span class="s2">"glm_ocr"</span><span class="p">],</span>
+                <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">"rapidocr"</span><span class="p">,</span> <span class="s2">"nanonets_ocr2"</span><span class="p">],</span>
                 <span class="n">value</span><span class="o">=</span><span class="s2">"rapidocr"</span><span class="p">,</span>
             <span class="p">)</span>
 
