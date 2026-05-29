@@ -1,3 +1,5 @@
+#uv run streamlit run 03-streamlit-pdf-search.py
+
 import hashlib
 import html
 import pickle

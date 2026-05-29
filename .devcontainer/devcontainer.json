@@ -1,24 +1,31 @@
 {
-  "name": "AI Experimentation Workshop",
+  "name": "Newsroom Infrastructure for AI Experimentation",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
-  "onCreateCommand": "curl -LsSf https://astral.sh/uv/install.sh | sh && ~/.local/bin/uv sync --frozen && ~/.local/bin/uv run python -m ipykernel install --user --name ai-experimentation --display-name 'AI Experimentation'",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "waitFor": "postCreateCommand",
   "remoteEnv": {
-    "PATH": "/home/vscode/.local/bin:${containerEnv:PATH}"
+    "PATH": "${containerWorkspaceFolder}/.venv/bin:/home/vscode/.local/bin:${containerEnv:PATH}"
   },
-  "forwardPorts": [8501, 8502, 8503, 7860, 7861],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
+        "jupyter.notebookFileRoot": "${workspaceFolder}"
+      }
+    }
+  },
+  "forwardPorts": [
+    7860,
+    7861,
+    8501,
+    8502,
+    8503
+  ],
   "portsAttributes": {
-    "8501": {
-      "label": "Streamlit: PDF Search",
-      "onAutoForward": "notify"
-    },
-    "8502": {
-      "label": "Streamlit: Transfers Simple",
-      "onAutoForward": "notify"
-    },
-    "8503": {
-      "label": "Streamlit: Transfers Fancy",
-      "onAutoForward": "notify"
-    },
     "7860": {
       "label": "Gradio",
       "onAutoForward": "notify"
@@ -26,14 +33,18 @@
     "7861": {
       "label": "Gradio alternate",
       "onAutoForward": "notify"
-    }
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "ms-toolsai.jupyter"
-      ]
+    },
+    "8501": {
+      "label": "Streamlit: PDF Search: Streamlit app",
+      "onAutoForward": "notify"
+    },
+    "8502": {
+      "label": "Streamlit: Real Estate Transfers Browser: simple version",
+      "onAutoForward": "notify"
+    },
+    "8503": {
+      "label": "Streamlit: Real Estate Transfers Browser: fancy version",
+      "onAutoForward": "notify"
     }
   }
 }

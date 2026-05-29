@@ -7,6 +7,8 @@ github_branch: "main"
 output_dir: "docs"
 execution_environment: "project"
 slides: "AI Experimentation.pptx"
+codespaces:
+  port_visibility: public
 default_install: []
 
 sections:
@@ -113,6 +115,8 @@ sections:
         order: 1
         install:
           - pandas
+        data_files:
+          - "data/transfers.csv"
     apps:
       - path: "04-streamlit-transfers-simple.py"
         title: "Real Estate Transfers Browser: simple version"

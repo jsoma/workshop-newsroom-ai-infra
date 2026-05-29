@@ -9,6 +9,7 @@ __pycache__/
 .mypy_cache/
 
 .workshop-cache/
+.glm-ocr-benchmark/
 *.log
 
 .env

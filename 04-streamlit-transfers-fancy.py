@@ -1,3 +1,5 @@
+#uv run streamlit run 04-streamlit-transfers-simple.py
+
 from pathlib import Path
 
 import pandas as pd
